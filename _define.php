@@ -1,21 +1,30 @@
 <?php
-# -- BEGIN LICENSE BLOCK ----------------------------------
-# This file is part of dcLog, a plugin for Dotclear.
-# 
-# Copyright (c) 2010 Tomtom
-# http://blog.zenstyle.fr/
-# 
-# Licensed under the GPL version 2.0 license.
-# A copy of this license is available in LICENSE file or at
-# http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-# -- END LICENSE BLOCK ------------------------------------
-if (!defined('DC_RC_PATH')) { return; }
+/**
+ * @brief dcLog, a plugin for Dotclear 2
+ *
+ * @package Dotclear
+ * @subpackage Plugin
+ *
+ * @author Tomtom (http://blog.zenstyle.fr) and Contributors
+ *
+ * @copyright Jean-Crhistian Denis
+ * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
+ */
+if (!defined('DC_RC_PATH')) {
+    return null;
+}
 
 $this->registerModule(
-		/* Name */			"dcLog",
-		/* Description*/		"Displays Dotclear logs",
-		/* Author */			"Tomtom (http://blog.zenstyle.fr)",
-		/* Version */			'1.0.1'
+    'dcLog',
+    'Displays Dotclear logs',
+    'Tomtom (http://blog.zenstyle.fr) and Contributors',
+    '1.1',
+    [
+        'requires'    => [['core', '2.24']],
+        'permissions' => null,
+        'type'        => 'plugin',
+        'support'     => 'https://github.com/JcDenis/dcLog',
+        'details'     => 'https://plugins.dotaddict.org/dc2/details/dcLog',
+        'repository'  => 'https://raw.githubusercontent.com/JcDenis/dcLog/master/dcstore.xml',
+    ]
 );
-
-?>

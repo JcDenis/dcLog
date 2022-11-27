@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<modules xmlns:da="http://dotaddict.org/da/">
+  <module id="dcLog">
+    <name>dcLog</name>
+    <version>1.1</version>
+    <author>Tomtom (http://blog.zenstyle.fr) and Contributors</author>
+    <desc>Displays Dotclear logs</desc>
+    <file>https://github.com/JcDenis/dcLog/releases/download/v1.1/plugin-dcLog.zip</file>
+    <da:dcmin>2.24</da:dcmin>
+    <da:details>https://plugins.dotaddict.org/dc2/details/dcLog</da:details>
+    <da:support>https://github.com/JcDenis/dcLog</da:support>
+  </module>
+</modules>

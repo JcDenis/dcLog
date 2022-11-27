@@ -1,110 +1,107 @@
 <?php
-# -- BEGIN LICENSE BLOCK ----------------------------------
-# This file is part of dcLog, a plugin for Dotclear.
-# 
-# Copyright (c) 2010 Tomtom
-# http://blog.zenstyle.fr/
-# 
-# Licensed under the GPL version 2.0 license.
-# A copy of this license is available in LICENSE file or at
-# http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-# -- END LICENSE BLOCK ------------------------------------
-if (!defined('DC_RC_PATH')) { return; }
-
-class dcLogList extends adminGenericList
-{
-	/**
-	 * Display data table for logs
-	 *
-	 * @param	int		page
-	 * @param	int		nb_per_page
-	 * @param	string	html_block
-	 * @param	string	url
-	 */
-	public function display($page,$nb_per_page,$html_block = '%s')
-	{
-		if (!$this->rs->isEmpty()) {
-			$pager = new pager($page,$this->rs_count,$nb_per_page,10);
-			$pager->var_page = 'page';
-			
-			echo '<p>'.__('Page(s)').' : '.$pager->getLinks().'</p>';
-			
-			$blocks = explode('%s',$html_block);
-			
-			echo $blocks[0];
-			
-			echo
-			'<table summary="logs" class="maximal">'.
-			'<thead>'.
-			'<tr>'.
-				'<th>'.__('Date').'</th>'.
-				'<th>'.__('Message').'</th>'.
-				'<th>'.__('Blog').'</th>'.
-				'<th>'.__('Component').'</th>'.
-				'<th>'.__('User').'</th>'.
-				'<th>'.__('IP').'</th>'.
-			'</tr>'.
-			'</thead>'.
-			'<tbody>';
-			
-			$this->rs->index(((integer)$page - 1) * $nb_per_page);
-			$iter = 0;
-			while ($iter < $nb_per_page) {
-				$this->logLine();
-				
-				if ($this->rs->isEnd()) {
-					break;
-				}
-				else {
-					$this->rs->moveNext();
-					$iter++;
-				}
-			}
-			
-			echo
-			'</tbody>'.
-			'</table>';
-			
-			echo $blocks[1];
-			
-			echo '<p>'.__('Page(s)').' : '.$pager->getLinks().'</p>';
-		}
-		else {
-			echo '<p>'.__('No log').'</p>';
-		}
-	}
-	
-	private function logLine()
-	{
-		$format = $this->core->blog->settings->system->date_format.' - '.$this->core->blog->settings->system->time_format;
-		
-		$tz = dt::getTimeOffset($this->core->blog->settings->system->blog_timezone);
-		
-		$date = dt::str($format,strtotime($this->rs->log_dt) + $tz);
-		
-		echo 
-			'<tr class="line wide" id="log_'.$this->rs->log_id.'">'."\n".
-			'<td class="minimal nowrap">'.
-				form::checkbox(array('ids[]'),$this->rs->log_id).
-				'&nbsp;'.html::escapeHTML($date).
-			"</td>\n".
-			'<td class="maximal">'.
-				html::escapeHTML($this->rs->log_msg).
-			"</td>\n".
-			'<td class="minimal nowrap">'.
-				html::escapeHTML($this->rs->blog_id).
-			"</td>\n".
-			'<td class="minimal nowrap">'.
-				html::escapeHTML($this->rs->log_table).
-			"</td>\n".
-			'<td class="minimal nowrap">'.
-				html::escapeHTML($this->rs->getUserCN()).
-			"</td>\n".
-			'<td class="minimal nowrap">'.
-				html::escapeHTML($this->rs->log_ip).
-			"</td>\n".
-			"</tr>\n";
-	}
+/**
+ * @brief dcLog, a plugin for Dotclear 2
+ *
+ * @package Dotclear
+ * @subpackage Plugin
+ *
+ * @author Tomtom (http://blog.zenstyle.fr) and Contributors
+ *
+ * @copyright Jean-Crhistian Denis
+ * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
+ */
+if (!defined('DC_RC_PATH')) {
+    return null;
 }
 
-?>
+class dcLogList extends adminGenericListV2
+{
+    public function display($page, $nb_per_page, $enclose_block = '', $filter = false)
+    {
+        if ($this->rs->isEmpty()) {
+            if ($filter) {
+                echo '<p><strong>' . __('No log matches the filter') . '</strong></p>';
+            } else {
+                echo '<p><strong>' . __('No log') . '</strong></p>';
+            }
+        } else {
+            $pager   = new dcPager($page, $this->rs_count, $nb_per_page, 10);
+            $entries = [];
+            if (isset($_REQUEST['entries'])) {
+                foreach ($_REQUEST['entries'] as $v) {
+                    $entries[(int) $v] = true;
+                }
+            }
+
+            $cols = [
+                'date'  => '<th colspan="2" class="first">' . __('Date') . '</th>',
+                'msg'   => '<th scope="col">' . __('Message') . '</th>',
+                'blog'  => '<th scope="col">' . __('Blog') . '</th>',
+                'table' => '<th scope="col">' . __('Component') . '</th>',
+                'user'  => '<th scope="col">' . __('User') . '</th>',
+                'ip'    => '<th scope="col">' . __('IP') . '</th>',
+            ];
+            $cols = new ArrayObject($cols);
+            $this->userColumns('dcloglist', $cols);
+
+            $html_block = '<div class="table-outer">' .
+                '<table>';
+
+            if ($filter) {
+                $html_block .= '<caption>' . sprintf(__('List of %s logs matching the filter.'), $this->rs_count) . '</caption>';
+            }
+
+            $html_block .= '<tr>' . implode(iterator_to_array($cols)) . '</tr>%s</table>%s</div>';
+            if ($enclose_block) {
+                $html_block = sprintf($enclose_block, $html_block);
+            }
+
+            $blocks = explode('%s', $html_block);
+
+            echo $pager->getLinks() . $blocks[0];
+
+            while ($this->rs->fetch()) {
+                $this->logLine(isset($entries[$this->rs->log_id]));
+            }
+
+            echo $blocks[1] . $blocks[2] . $pager->getLinks();
+        }
+    }
+
+    private function logLine($checked)
+    {
+        $cols = [
+            'check' => '<td class="nowrap minimal">' .
+                form::checkbox(['entries[]'], $this->rs->log_id, ['checked' => $checked]) .
+                '</td>',
+            'date' => '<td class="nowrap minimal">' .
+                html::escapeHTML(dt::dt2str(
+                    __('%Y-%m-%d %H:%M'),
+                    $this->rs->log_dt
+                )) .
+                '</td>',
+            'msg' => '<td class="maximal">' .
+                nl2br(html::escapeHTML($this->rs->log_msg)) .
+                '</td>',
+            'blog' => '<td class="minimal nowrap">' .
+                html::escapeHTML($this->rs->blog_id) .
+                '</td>',
+            'table' => '<td class="minimal nowrap">' .
+                html::escapeHTML($this->rs->log_table) .
+                '</td>',
+            'user' => '<td class="minimal nowrap">' .
+                html::escapeHTML($this->rs->getUserCN()) .
+                '</td>',
+            'ip' => '<td class="minimal nowrap">' .
+                html::escapeHTML($this->rs->log_ip) .
+                '</td>',
+        ];
+        $cols = new ArrayObject($cols);
+        $this->userColumns('dcloglist', $cols);
+
+        echo
+            '<tr class="line" id="p' . $this->rs->log_id . '">' .
+            implode(iterator_to_array($cols)) .
+            '</tr>';
+    }
+}
