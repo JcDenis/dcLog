@@ -59,6 +59,6 @@ dcCore::app()->addBehavior('adminDashboardFavoritesV2', function (dcFavorites $f
         'url'         => dcCore::app()->adminurl->get('admin.plugin.dcLog'),
         'small-icon'  => dcPage::getPF('dcLog/icon.svg'),
         'large-icon'  => dcPage::getPF('dcLog/icon.svg'),
-        'permissions' => null,
+        //'permissions' => null,
     ]);
 });
