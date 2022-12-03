@@ -7,7 +7,7 @@
  *
  * @author Tomtom (http://blog.zenstyle.fr) and Contributors
  *
- * @copyright Jean-Crhistian Denis
+ * @copyright Jean-Christian Denis
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
 if (!defined('DC_CONTEXT_ADMIN')) {
@@ -55,10 +55,10 @@ dcCore::app()->addBehavior('adminFiltersListsV2', function (ArrayObject $sorts) 
 
 dcCore::app()->addBehavior('adminDashboardFavoritesV2', function (dcFavorites $favs) {
     $favs->register('dcloglist', [
-        'title'       => __('Log'),
-        'url'         => dcCore::app()->adminurl->get('admin.plugin.dcLog'),
-        'small-icon'  => dcPage::getPF('dcLog/icon.svg'),
-        'large-icon'  => dcPage::getPF('dcLog/icon.svg'),
+        'title'      => __('Log'),
+        'url'        => dcCore::app()->adminurl->get('admin.plugin.dcLog'),
+        'small-icon' => dcPage::getPF('dcLog/icon.svg'),
+        'large-icon' => dcPage::getPF('dcLog/icon.svg'),
         //'permissions' => null,
     ]);
 });

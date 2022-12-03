@@ -7,7 +7,7 @@
  *
  * @author Tomtom (http://blog.zenstyle.fr) and Contributors
  *
- * @copyright Jean-Crhistian Denis
+ * @copyright Jean-Christian Denis
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
 if (!defined('DC_CONTEXT_ADMIN')) {
