@@ -26,7 +26,7 @@ dcCore::app()->addBehavior('adminColumnsListsV2', function (ArrayObject $cols) {
     $cols['dcloglist'] = [
         __('Log'),
         [
-            'date' => [true, __('Date')],
+            'date'  => [true, __('Date')],
             //'msg'    => [true, __('Message')],
             'blog'  => [true, __('Blog')],
             'table' => [true, __('Component')],
