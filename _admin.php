@@ -5,7 +5,7 @@
  * @package Dotclear
  * @subpackage Plugin
  *
- * @author Tomtom (http://blog.zenstyle.fr) and Contributors
+ * @author Tomtom and Contributors
  *
  * @copyright Jean-Christian Denis
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
