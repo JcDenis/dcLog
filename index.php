@@ -30,7 +30,7 @@ if (isset($_POST['del_logs']) || isset($_POST['del_all_logs'])) {
             __('All logs have been successfully deleted') :
             __('Selected logs have been successfully deleted')
         );
-        dcCore::app()->adminurl->redirect('admin.plugin.dcLog');
+        dcCore::app()->adminurl->redirect('admin.plugin.' . basename(__DIR__));
     } catch (Exception $e) {
         dcCore::app()->error->add($e->getMessage());
     }
@@ -58,12 +58,12 @@ dcPage::jsJson('dclog_list', [
     'confirm_delete_selected_log' => __('Are you sure you want to delete selected logs?'),
     'confirm_delete_all_log'      => __('Are you sure you want to delete all logs?'),
 ]) .
-$filter->js(dcCore::app()->adminurl->get('admin.plugin.dcLog')) .
-dcPage::jsLoad(dcPage::getPF('dcLog/js/dclog.js')) .
+$filter->js(dcCore::app()->adminurl->get('admin.plugin.' . basename(__DIR__))) .
+dcPage::jsLoad(dcPage::getPF(basename(__DIR__) . '/js/dclog.js')) .
 '</head><body>' .
 dcPage::breadcrumb([
     __('System') => '',
-    __('Log')    => dcCore::app()->adminurl->get('admin.plugin.dcLog'),
+    __('Log')    => dcCore::app()->adminurl->get('admin.plugin.' . basename(__DIR__)),
 ]) .
 dcPage::notices();
 
@@ -72,13 +72,13 @@ if (isset($logs) && isset($logs_list)) {
         echo '<p>' . __('There are no logs') . '</p>';
     } else {
         $filter->display(
-            'admin.plugin.dcLog',
-            form::hidden('p', 'dcLog')
+            'admin.plugin.' . basename(__DIR__),
+            form::hidden('p', basename(__DIR__))
         );
         $logs_list->display(
             $filter->__get('page'),
             $filter->__get('nb'),
-            '<form action="' . dcCore::app()->adminurl->get('admin.plugin.dcLog') . '" method="post" id="form-entries">' .
+            '<form action="' . dcCore::app()->adminurl->get('admin.plugin.' . basename(__DIR__)) . '" method="post" id="form-entries">' .
 
             '%s' .
 
@@ -90,7 +90,7 @@ if (isset($logs) && isset($logs_list)) {
             '<input type="submit" value="' . __('Delete all logs') . '" name="del_all_logs" />' .
             '</p>' .
 
-            dcCore::app()->adminurl->getHiddenFormFields('admin.plugin.dcLog', $filter->values()) .
+            dcCore::app()->adminurl->getHiddenFormFields('admin.plugin.' . basename(__DIR__), $filter->values()) .
             dcCore::app()->formNonce() .
             '</div>' .
             '</form>',

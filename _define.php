@@ -18,13 +18,13 @@ $this->registerModule(
     'dcLog',
     'Displays Dotclear logs',
     'Tomtom (http://blog.zenstyle.fr) and Contributors',
-    '1.1',
+    '1.1.1',
     [
         'requires'    => [['core', '2.24']],
         'permissions' => null,
         'type'        => 'plugin',
-        'support'     => 'https://github.com/JcDenis/dcLog',
-        'details'     => 'https://plugins.dotaddict.org/dc2/details/dcLog',
-        'repository'  => 'https://raw.githubusercontent.com/JcDenis/dcLog/master/dcstore.xml',
+        'support'     => 'https://github.com/JcDenis/' . basename(__DIR__),
+        'details'     => 'https://plugins.dotaddict.org/dc2/details/' . basename(__DIR__),
+        'repository'  => 'https://raw.githubusercontent.com/JcDenis/' . basename(__DIR__) . '/master/dcstore.xml',
     ]
 );
