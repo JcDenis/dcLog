@@ -10,20 +10,25 @@
  * @copyright Jean-Christian Denis
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
-if (!defined('DC_RC_PATH')) {
-    return null;
-}
+declare(strict_types=1);
 
-class dcLogList extends adminGenericListV2
+namespace Dotclear\Plugin\dcLog;
+
+use ArrayObject;
+use adminGenericListV2;
+use dcPager;
+use dt;
+use form;
+use html;
+
+class BackendList extends adminGenericListV2
 {
     public function display($page, $nb_per_page, $enclose_block = '', $filter = false)
     {
         if ($this->rs->isEmpty()) {
-            if ($filter) {
-                echo '<p><strong>' . __('No log matches the filter') . '</strong></p>';
-            } else {
-                echo '<p><strong>' . __('No log') . '</strong></p>';
-            }
+            echo $filter ?
+                '<p><strong>' . __('No log matches the filter') . '</strong></p>' :
+                '<p><strong>' . __('No log') . '</strong></p>';
         } else {
             $pager   = new dcPager($page, $this->rs_count, $nb_per_page, 10);
             $entries = [];
@@ -42,16 +47,16 @@ class dcLogList extends adminGenericListV2
                 'ip'    => '<th scope="col">' . __('IP') . '</th>',
             ];
             $cols = new ArrayObject($cols);
-            $this->userColumns('dcloglist', $cols);
+            $this->userColumns(My::BACKEND_LIST_ID, $cols);
 
-            $html_block = '<div class="table-outer">' .
-                '<table>';
+            $html_block = '<div class="table-outer"><table><caption>' .
+                (
+                    $filter ?
+                    sprintf(__('List of %s logs matching the filter.'), $this->rs_count) :
+                    sprintf(__('List of logs. (%s)'), $this->rs_count)
+                ) .
+                '</caption><tr>' . implode(iterator_to_array($cols)) . '</tr>%s</table>%s</div>';
 
-            if ($filter) {
-                $html_block .= '<caption>' . sprintf(__('List of %s logs matching the filter.'), $this->rs_count) . '</caption>';
-            }
-
-            $html_block .= '<tr>' . implode(iterator_to_array($cols)) . '</tr>%s</table>%s</div>';
             if ($enclose_block) {
                 $html_block = sprintf($enclose_block, $html_block);
             }
@@ -74,30 +79,30 @@ class dcLogList extends adminGenericListV2
             'check' => '<td class="nowrap minimal">' .
                 form::checkbox(['entries[]'], $this->rs->log_id, ['checked' => $checked]) .
                 '</td>',
-            'date'  => '<td class="nowrap minimal">' .
+            'date' => '<td class="nowrap minimal">' .
                 html::escapeHTML(dt::dt2str(
                     __('%Y-%m-%d %H:%M'),
                     $this->rs->log_dt
                 )) .
                 '</td>',
-            'msg'   => '<td class="maximal">' .
+            'msg' => '<td class="maximal">' .
                 nl2br(html::escapeHTML($this->rs->log_msg)) .
                 '</td>',
-            'blog'  => '<td class="minimal nowrap">' .
+            'blog' => '<td class="minimal nowrap">' .
                 html::escapeHTML($this->rs->blog_id) .
                 '</td>',
             'table' => '<td class="minimal nowrap">' .
                 html::escapeHTML($this->rs->log_table) .
                 '</td>',
-            'user'  => '<td class="minimal nowrap">' .
+            'user' => '<td class="minimal nowrap">' .
                 html::escapeHTML($this->rs->getUserCN()) .
                 '</td>',
-            'ip'    => '<td class="minimal nowrap">' .
+            'ip' => '<td class="minimal nowrap">' .
                 html::escapeHTML($this->rs->log_ip) .
                 '</td>',
         ];
         $cols = new ArrayObject($cols);
-        $this->userColumns('dcloglist', $cols);
+        $this->userColumns(My::BACKEND_LIST_ID, $cols);
 
         echo
             '<tr class="line" id="p' . $this->rs->log_id . '">' .

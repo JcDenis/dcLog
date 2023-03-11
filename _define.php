@@ -15,12 +15,12 @@ if (!defined('DC_RC_PATH')) {
 }
 
 $this->registerModule(
-    'dcLog',
+    'Logs',
     'Displays Dotclear logs',
     'Tomtom and Contributors',
-    '1.1.1',
+    '1.2',
     [
-        'requires'    => [['core', '2.24']],
+        'requires'    => [['core', '2.26']],
         'permissions' => null,
         'type'        => 'plugin',
         'support'     => 'https://github.com/JcDenis/' . basename(__DIR__),

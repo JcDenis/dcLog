@@ -10,93 +10,130 @@
  * @copyright Jean-Christian Denis
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
-if (!defined('DC_CONTEXT_ADMIN')) {
-    return null;
-}
+declare(strict_types=1);
 
-if (!dcCore::app()->auth->isSuperAdmin()) {
-    return null;
-}
+namespace Dotclear\Plugin\dcLog;
 
-$entries     = $_POST['entries'] ?? null;
-$del_all_log = isset($_POST['del_all_logs']) ? true : false;
+use adminGenericFilterV2;
+use dcAdminFilters;
+use dcCore;
+use dcNsProcess;
+use dcPage;
+use Exception;
+use form;
 
-#  Delete logs
-if (isset($_POST['del_logs']) || isset($_POST['del_all_logs'])) {
-    try {
-        dcCore::app()->log->delLogs($entries, $del_all_log);
-        dcAdminNotices::addSuccessNotice(
-            $del_all_log ?
-            __('All logs have been successfully deleted') :
-            __('Selected logs have been successfully deleted')
+/**
+ * Manage logs list
+ */
+class Manage extends dcNsProcess
+{
+    public static function init(): bool
+    {
+        if (defined('DC_CONTEXT_ADMIN')) {
+            dcPage::checkSuper();
+            self::$init = true;
+        }
+
+        return self::$init;
+    }
+
+    public static function process(): bool
+    {
+        if (!self::$init) {
+            return false;
+        }
+
+        dcCore::app()->admin->logs = dcCore::app()->admin->logs_list = dcCore::app()->admin->logs_filter = null;
+
+        $entries     = $_POST['entries'] ?? null;
+        $del_all_log = isset($_POST['del_all_logs']) ? true : false;
+
+        #  Delete logs
+        if (isset($_POST['del_logs']) || isset($_POST['del_all_logs'])) {
+            try {
+                dcCore::app()->log->delLogs($entries, $del_all_log);
+                dcPage::addSuccessNotice(
+                    $del_all_log ?
+                    __('All logs have been successfully deleted') :
+                    __('Selected logs have been successfully deleted')
+                );
+                dcCore::app()->adminurl->redirect('admin.plugin.' . My::id());
+            } catch (Exception $e) {
+                dcCore::app()->error->add($e->getMessage());
+            }
+        }
+
+        dcCore::app()->admin->logs_filter = new adminGenericFilterV2('dcloglist');
+        dcCore::app()->admin->logs_filter->add(dcAdminFilters::getPageFilter());
+        dcCore::app()->admin->logs_filter->add(dcAdminFilters::getInputFilter('blog_id', __('Blog:')));
+        dcCore::app()->admin->logs_filter->add(dcAdminFilters::getInputFilter('user_id', __('User:')));
+        dcCore::app()->admin->logs_filter->add(dcAdminFilters::getInputFilter('log_table', __('Component:')));
+        dcCore::app()->admin->logs_filter->add(dcAdminFilters::getInputFilter('log_ip', __('IP:')));
+        $params = dcCore::app()->admin->logs_filter->params();
+
+        try {
+            dcCore::app()->admin->logs      = dcCore::app()->log->getLogs($params);
+            dcCore::app()->admin->logs_list = new BackendList(dcCore::app()->admin->logs, dcCore::app()->admin->logs->count());
+        } catch (Exception $e) {
+            dcCore::app()->error->add($e->getMessage());
+        }
+
+        return true;
+    }
+
+    public static function render(): void
+    {
+        dcPage::openModule(
+            __('Pings'),
+            dcPage::jsJson('dclog_list', [
+                'confirm_delete_selected_log' => __('Are you sure you want to delete selected logs?'),
+                'confirm_delete_all_log'      => __('Are you sure you want to delete all logs?'),
+            ]) .
+            dcCore::app()->admin->logs_filter->js(dcCore::app()->adminurl->get('admin.plugin.' . My::id())) .
+            dcPage::jsLoad(dcPage::getPF(My::id() . '/js/backend.js'))
         );
-        dcCore::app()->adminurl->redirect('admin.plugin.' . basename(__DIR__));
-    } catch (Exception $e) {
-        dcCore::app()->error->add($e->getMessage());
+
+        echo
+        dcPage::breadcrumb(
+            [
+                __('System') => '',
+                My::name()   => dcCore::app()->adminurl->get('admin.plugin.' . My::id()),
+            ]
+        ) .
+        dcPage::notices();
+
+        if (isset(dcCore::app()->admin->logs) && isset(dcCore::app()->admin->logs_list)) {
+            if (dcCore::app()->admin->logs->isEmpty() && !dcCore::app()->admin->logs_filter->show()) {
+                echo '<p>' . __('There are no logs') . '</p>';
+            } else {
+                dcCore::app()->admin->logs_filter->display(
+                    'admin.plugin.' . My::id(),
+                    form::hidden('p', My::id())
+                );
+                dcCore::app()->admin->logs_list->display(
+                    dcCore::app()->admin->logs_filter->__get('page'),
+                    dcCore::app()->admin->logs_filter->__get('nb'),
+                    '<form action="' . dcCore::app()->adminurl->get('admin.plugin.' . My::id()) . '" method="post" id="form-entries">' .
+
+                    '%s' .
+
+                    '<div class="two-cols">' .
+                    '<p class="col checkboxes-helpers"></p>' .
+
+                    '<p class="col right">' .
+                    '<input type="submit" value="' . __('Delete selected logs') . '" name="del_logs" />&nbsp;' .
+                    '<input type="submit" value="' . __('Delete all logs') . '" name="del_all_logs" />' .
+                    '</p>' .
+
+                    dcCore::app()->adminurl->getHiddenFormFields('admin.plugin.' . My::id(), dcCore::app()->admin->logs_filter->values()) .
+                    dcCore::app()->formNonce() .
+                    '</div>' .
+                    '</form>',
+                    dcCore::app()->admin->logs_filter->show()
+                );
+            }
+        }
+
+        dcPage::closeModule();
     }
 }
-
-$filter = new adminGenericFilterV2('dcloglist');
-$filter->add(dcAdminFilters::getPageFilter());
-$filter->add(dcAdminFilters::getInputFilter('blog_id', __('Blog:')));
-$filter->add(dcAdminFilters::getInputFilter('user_id', __('User:')));
-$filter->add(dcAdminFilters::getInputFilter('log_table', __('Component:')));
-$filter->add(dcAdminFilters::getInputFilter('log_ip', __('IP:')));
-$params = $filter->params();
-
-try {
-    $logs         = dcCore::app()->log->getLogs($params);
-    $logs_counter = $logs->count();
-    $logs_list    = new dcLogList($logs, $logs_counter);
-} catch (Exception $e) {
-    dcCore::app()->error->add($e->getMessage());
-}
-
-echo
-'<html><head><title>' . __('Log') . '</title>' .
-dcPage::jsJson('dclog_list', [
-    'confirm_delete_selected_log' => __('Are you sure you want to delete selected logs?'),
-    'confirm_delete_all_log'      => __('Are you sure you want to delete all logs?'),
-]) .
-$filter->js(dcCore::app()->adminurl->get('admin.plugin.' . basename(__DIR__))) .
-dcPage::jsLoad(dcPage::getPF(basename(__DIR__) . '/js/dclog.js')) .
-'</head><body>' .
-dcPage::breadcrumb([
-    __('System') => '',
-    __('Log')    => dcCore::app()->adminurl->get('admin.plugin.' . basename(__DIR__)),
-]) .
-dcPage::notices();
-
-if (isset($logs) && isset($logs_list)) {
-    if ($logs->isEmpty() && !$filter->show()) {
-        echo '<p>' . __('There are no logs') . '</p>';
-    } else {
-        $filter->display(
-            'admin.plugin.' . basename(__DIR__),
-            form::hidden('p', basename(__DIR__))
-        );
-        $logs_list->display(
-            $filter->__get('page'),
-            $filter->__get('nb'),
-            '<form action="' . dcCore::app()->adminurl->get('admin.plugin.' . basename(__DIR__)) . '" method="post" id="form-entries">' .
-
-            '%s' .
-
-            '<div class="two-cols">' .
-            '<p class="col checkboxes-helpers"></p>' .
-
-            '<p class="col right">' .
-            '<input type="submit" value="' . __('Delete selected logs') . '" name="del_logs" />&nbsp;' .
-            '<input type="submit" value="' . __('Delete all logs') . '" name="del_all_logs" />' .
-            '</p>' .
-
-            dcCore::app()->adminurl->getHiddenFormFields('admin.plugin.' . basename(__DIR__), $filter->values()) .
-            dcCore::app()->formNonce() .
-            '</div>' .
-            '</form>',
-            $filter->show()
-        );
-    }
-}
-
-echo '</body></html>';

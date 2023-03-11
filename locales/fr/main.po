@@ -1,17 +1,14 @@
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
-"Project-Id-Version: dcLog 1.1\n"
+"Project-Id-Version: dcLog 1.2\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-11-27T20:16:51+00:00\n"
-"Last-Translator: Jean-Crhistian Denis\n"
+"PO-Revision-Date: 2023-03-11T14:48:16+00:00\n"
+"Last-Translator: Jean-Christian Denis\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-
-msgid "Log"
-msgstr "Log"
 
 msgid "Message"
 msgstr "Message"
@@ -33,6 +30,9 @@ msgstr "Aucun log"
 
 msgid "List of %s logs matching the filter."
 msgstr "Liste des %s logs correspondants au filtre."
+
+msgid "List of logs. (%s)"
+msgstr "Liste des logs. (%s)"
 
 msgid "All logs have been successfully deleted"
 msgstr "Tous les logs ont été supprimé avec succès"
@@ -63,4 +63,7 @@ msgstr "Supprimer les logs sélectionnés"
 
 msgid "Delete all logs"
 msgstr "Supprimer tous les logs"
+
+msgid "Logs"
+msgstr "Enregistrements"
 
