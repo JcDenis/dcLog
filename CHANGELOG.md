@@ -1,4 +1,4 @@
-1.2 - xxxx.xx.xx
+1.2 - 2023.03.11
 - Update to Dotclear 2.26
 - use abstract plugin id
 - use php namespace

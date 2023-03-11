@@ -15,7 +15,7 @@ if (!defined('DC_RC_PATH')) {
 }
 
 $this->registerModule(
-    'Logs',
+    "Dotclear's logs",
     'Displays Dotclear logs',
     'Tomtom and Contributors',
     '1.2',

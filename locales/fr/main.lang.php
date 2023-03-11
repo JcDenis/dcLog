@@ -27,4 +27,4 @@ l10n::$locales['Are you sure you want to delete all logs?']      = 'Êtes vous s
 l10n::$locales['There are no logs']                              = 'Il n\'y a aucun log';
 l10n::$locales['Delete selected logs']                           = 'Supprimer les logs sélectionnés';
 l10n::$locales['Delete all logs']                                = 'Supprimer tous les logs';
-l10n::$locales['Logs']                                           = 'Enregistrements';
+l10n::$locales['Dotclear\'s logs']                               = 'Logs';
