@@ -1,3 +1,9 @@
+1.2.1 - 2023.03.19
+- require php 8.1
+- add container for admin vars
+- fix init check
+- fix phpstan lvl 8 warnings
+
 1.2 - 2023.03.11
 - Update to Dotclear 2.26
 - use abstract plugin id
