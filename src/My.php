@@ -18,6 +18,14 @@ use dcCore;
 
 class My
 {
+    /**
+     * @var string PHP min version
+     */
+    public const PHP_MIN = '8.1';
+
+    /**
+     * @var string Admin list ID
+     */
     public const BACKEND_LIST_ID = 'dcloglist';
 
     /**
@@ -34,5 +42,13 @@ class My
     public static function name(): string
     {
         return __((string) dcCore::app()->plugins->moduleInfo(self::id(), 'name'));
+    }
+
+    /**
+     * Check php version
+     */
+    public static function phpCompliant(): bool
+    {
+        return version_compare(phpversion(), self::PHP_MIN, '>=');
     }
 }
