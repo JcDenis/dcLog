@@ -18,6 +18,7 @@ Display dotclear's logs.
 
  _dcLog_ requires: 
 
+  * PHP >= 8.1
   * Dotclear 2.26
   * super admin permission
 
