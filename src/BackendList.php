@@ -23,7 +23,7 @@ use html;
 
 class BackendList extends adminGenericListV2
 {
-    public function display($page, $nb_per_page, $enclose_block = '', $filter = false)
+    public function display(int $page, int $nb_per_page, string $enclose_block = '', bool $filter = false): void
     {
         if ($this->rs->isEmpty()) {
             echo $filter ?
@@ -73,7 +73,7 @@ class BackendList extends adminGenericListV2
         }
     }
 
-    private function logLine($checked)
+    private function logLine(bool $checked): void
     {
         $cols = [
             'check' => '<td class="nowrap minimal">' .

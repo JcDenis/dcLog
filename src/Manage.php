@@ -14,8 +14,6 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\dcLog;
 
-use adminGenericFilterV2;
-use dcAdminFilters;
 use dcCore;
 use dcNsProcess;
 use dcPage;
@@ -42,39 +40,21 @@ class Manage extends dcNsProcess
             return false;
         }
 
-        dcCore::app()->admin->logs = dcCore::app()->admin->logs_list = dcCore::app()->admin->logs_filter = null;
-
-        $entries     = $_POST['entries'] ?? null;
-        $del_all_log = isset($_POST['del_all_logs']) ? true : false;
+        $current = ManageVars::init();
 
         #  Delete logs
-        if (isset($_POST['del_logs']) || isset($_POST['del_all_logs'])) {
+        if ($current->selected_logs || $current->all_logs) {
             try {
-                dcCore::app()->log->delLogs($entries, $del_all_log);
+                dcCore::app()->log->delLogs($current->entries, $current->all_logs);
                 dcPage::addSuccessNotice(
-                    $del_all_log ?
+                    $current->all_logs ?
                     __('All logs have been successfully deleted') :
                     __('Selected logs have been successfully deleted')
                 );
-                dcCore::app()->adminurl->redirect('admin.plugin.' . My::id());
+                dcCore::app()->adminurl?->redirect('admin.plugin.' . My::id());
             } catch (Exception $e) {
                 dcCore::app()->error->add($e->getMessage());
             }
-        }
-
-        dcCore::app()->admin->logs_filter = new adminGenericFilterV2('dcloglist');
-        dcCore::app()->admin->logs_filter->add(dcAdminFilters::getPageFilter());
-        dcCore::app()->admin->logs_filter->add(dcAdminFilters::getInputFilter('blog_id', __('Blog:')));
-        dcCore::app()->admin->logs_filter->add(dcAdminFilters::getInputFilter('user_id', __('User:')));
-        dcCore::app()->admin->logs_filter->add(dcAdminFilters::getInputFilter('log_table', __('Component:')));
-        dcCore::app()->admin->logs_filter->add(dcAdminFilters::getInputFilter('log_ip', __('IP:')));
-        $params = dcCore::app()->admin->logs_filter->params();
-
-        try {
-            dcCore::app()->admin->logs      = dcCore::app()->log->getLogs($params);
-            dcCore::app()->admin->logs_list = new BackendList(dcCore::app()->admin->logs, dcCore::app()->admin->logs->count());
-        } catch (Exception $e) {
-            dcCore::app()->error->add($e->getMessage());
         }
 
         return true;
@@ -86,13 +66,15 @@ class Manage extends dcNsProcess
             return;
         }
 
+        $current = ManageVars::init();
+
         dcPage::openModule(
             __('Pings'),
             dcPage::jsJson('dclog_list', [
                 'confirm_delete_selected_log' => __('Are you sure you want to delete selected logs?'),
                 'confirm_delete_all_log'      => __('Are you sure you want to delete all logs?'),
             ]) .
-            dcCore::app()->admin->logs_filter->js(dcCore::app()->adminurl->get('admin.plugin.' . My::id())) .
+            $current->filter->js((string) dcCore::app()->adminurl?->get('admin.plugin.' . My::id())) .
             dcPage::jsLoad(dcPage::getPF(My::id() . '/js/backend.js'))
         );
 
@@ -100,23 +82,23 @@ class Manage extends dcNsProcess
         dcPage::breadcrumb(
             [
                 __('System') => '',
-                My::name()   => dcCore::app()->adminurl->get('admin.plugin.' . My::id()),
+                My::name()   => dcCore::app()->adminurl?->get('admin.plugin.' . My::id()),
             ]
         ) .
         dcPage::notices();
 
-        if (isset(dcCore::app()->admin->logs) && isset(dcCore::app()->admin->logs_list)) {
-            if (dcCore::app()->admin->logs->isEmpty() && !dcCore::app()->admin->logs_filter->show()) {
+        if ($current->logs !== null && $current->list != null) {
+            if ($current->logs->isEmpty() && !$current->filter->show()) {
                 echo '<p>' . __('There are no logs') . '</p>';
             } else {
-                dcCore::app()->admin->logs_filter->display(
+                $current->filter->display(
                     'admin.plugin.' . My::id(),
                     form::hidden('p', My::id())
                 );
-                dcCore::app()->admin->logs_list->display(
-                    dcCore::app()->admin->logs_filter->__get('page'),
-                    dcCore::app()->admin->logs_filter->__get('nb'),
-                    '<form action="' . dcCore::app()->adminurl->get('admin.plugin.' . My::id()) . '" method="post" id="form-entries">' .
+                $current->list->display(
+                    (int) $current->filter->__get('page'),
+                    (int) $current->filter->__get('nb'),
+                    '<form action="' . dcCore::app()->adminurl?->get('admin.plugin.' . My::id()) . '" method="post" id="form-entries">' .
 
                     '%s' .
 
@@ -124,15 +106,15 @@ class Manage extends dcNsProcess
                     '<p class="col checkboxes-helpers"></p>' .
 
                     '<p class="col right">' .
-                    '<input type="submit" value="' . __('Delete selected logs') . '" name="del_logs" />&nbsp;' .
-                    '<input type="submit" value="' . __('Delete all logs') . '" name="del_all_logs" />' .
+                    '<input type="submit" value="' . __('Delete selected logs') . '" name="selected_logs" />&nbsp;' .
+                    '<input type="submit" value="' . __('Delete all logs') . '" name="all_logs" />' .
                     '</p>' .
 
-                    dcCore::app()->adminurl->getHiddenFormFields('admin.plugin.' . My::id(), dcCore::app()->admin->logs_filter->values()) .
+                    dcCore::app()->adminurl?->getHiddenFormFields('admin.plugin.' . My::id(), $current->filter->values()) .
                     dcCore::app()->formNonce() .
                     '</div>' .
                     '</form>',
-                    dcCore::app()->admin->logs_filter->show()
+                    $current->filter->show()
                 );
             }
         }
