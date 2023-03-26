@@ -17,8 +17,15 @@ namespace Dotclear\Plugin\dcLog;
 use dcCore;
 use dcNsProcess;
 use dcPage;
+use Dotclear\Helper\Html\Form\{
+    Div,
+    Form,
+    Hidden,
+    Para,
+    Submit,
+    Text
+};
 use Exception;
-use form;
 
 /**
  * Manage logs list
@@ -89,31 +96,29 @@ class Manage extends dcNsProcess
 
         if ($current->logs !== null && $current->list != null) {
             if ($current->logs->isEmpty() && !$current->filter->show()) {
-                echo '<p>' . __('There are no logs') . '</p>';
+                echo (new Text('p', __('There are no logs')))->render();
             } else {
                 $current->filter->display(
                     'admin.plugin.' . My::id(),
-                    form::hidden('p', My::id())
+                    (new Hidden(['p'], My::id()))->render()
                 );
                 $current->list->display(
                     (int) $current->filter->__get('page'),
                     (int) $current->filter->__get('nb'),
-                    '<form action="' . dcCore::app()->adminurl?->get('admin.plugin.' . My::id()) . '" method="post" id="form-entries">' .
-
-                    '%s' .
-
-                    '<div class="two-cols">' .
-                    '<p class="col checkboxes-helpers"></p>' .
-
-                    '<p class="col right">' .
-                    '<input type="submit" value="' . __('Delete selected logs') . '" name="selected_logs" />&nbsp;' .
-                    '<input type="submit" value="' . __('Delete all logs') . '" name="all_logs" />' .
-                    '</p>' .
-
-                    dcCore::app()->adminurl?->getHiddenFormFields('admin.plugin.' . My::id(), $current->filter->values()) .
-                    dcCore::app()->formNonce() .
-                    '</div>' .
-                    '</form>',
+                    (new Form('form-entries'))->action(dcCore::app()->adminurl->get('admin.plugin.' . My::id()))->method('post')->fields([
+                        (new Text('', '%s')),
+                        (new Div())->class('two-cols')->items([
+                            (new Para())->class('col checkboxes-helpers'),
+                            (new Para())->class('col right')->separator('&nbsp;')->items([
+                                (new Submit(['selected_logs']))->class('delete')->value(__('Delete selected logs')),
+                                (new Submit(['all_logs']))->class('delete')->value(__('Delete all logs')),
+                            ]),
+                            (new Text('', 
+                                dcCore::app()->adminurl?->getHiddenFormFields('admin.plugin.' . My::id(), $current->filter->values()) .
+                                dcCore::app()->formNonce()
+                            )),
+                        ]),
+                    ])->render(),
                     $current->filter->show()
                 );
             }
