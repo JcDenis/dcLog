@@ -1,3 +1,8 @@
+1.2.2 - 2023.04.06
+- fix pager and count (require dc 2.26 nightly)
+- fix empty submit
+- use Html helper
+
 1.2.1 - 2023.03.19
 - require php 8.1
 - add container for admin vars
