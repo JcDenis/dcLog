@@ -50,7 +50,8 @@ class ManageVars
 
         try {
             $this->logs = dcCore::app()->log->getLogs($params);
-            $this->list = new BackendList($this->logs, $this->logs->count());
+            $count = (int) dcCore::app()->log->getLogs($params, true)->f(0);
+            $this->list = new BackendList($this->logs, $count);
         } catch (Exception $e) {
             dcCore::app()->error->add($e->getMessage());
         }
