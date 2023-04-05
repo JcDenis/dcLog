@@ -50,7 +50,7 @@ class Manage extends dcNsProcess
         $current = ManageVars::init();
 
         #  Delete logs
-        if ($current->selected_logs || $current->all_logs) {
+        if ($current->selected_logs && !empty($current->entries) || $current->all_logs) {
             try {
                 dcCore::app()->log->delLogs($current->entries, $current->all_logs);
                 dcPage::addSuccessNotice(
@@ -113,7 +113,8 @@ class Manage extends dcNsProcess
                                 (new Submit(['selected_logs']))->class('delete')->value(__('Delete selected logs')),
                                 (new Submit(['all_logs']))->class('delete')->value(__('Delete all logs')),
                             ]),
-                            (new Text('', 
+                            (new Text(
+                                '',
                                 dcCore::app()->adminurl?->getHiddenFormFields('admin.plugin.' . My::id(), $current->filter->values()) .
                                 dcCore::app()->formNonce()
                             )),
