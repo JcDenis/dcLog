@@ -17,9 +17,9 @@ namespace Dotclear\Plugin\dcLog;
 use ArrayObject;
 use adminGenericListV2;
 use dcPager;
+use Dotclear\Helper\Date;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Html\Form\Checkbox;
-use dt;
 
 class BackendList extends adminGenericListV2
 {
@@ -80,7 +80,7 @@ class BackendList extends adminGenericListV2
                 (new Checkbox(['entries[]'], $checked))->value($this->rs->log_id)->render() .
                 '</td>',
             'date' => '<td class="nowrap minimal">' .
-                Html::escapeHTML(dt::dt2str(
+                Html::escapeHTML(Date::dt2str(
                     __('%Y-%m-%d %H:%M'),
                     $this->rs->log_dt
                 )) .
