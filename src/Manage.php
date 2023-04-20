@@ -105,7 +105,7 @@ class Manage extends dcNsProcess
                 $current->list->display(
                     (int) $current->filter->__get('page'),
                     (int) $current->filter->__get('nb'),
-                    (new Form('form-entries'))->action(dcCore::app()->adminurl->get('admin.plugin.' . My::id()))->method('post')->fields([
+                    (new Form('form-entries'))->action(dcCore::app()->adminurl?->get('admin.plugin.' . My::id()))->method('post')->fields([
                         (new Text('', '%s')),
                         (new Div())->class('two-cols')->items([
                             (new Para())->class('col checkboxes-helpers'),
