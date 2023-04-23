@@ -1,3 +1,11 @@
+1.3 - 2023.04.23
+- require dotclear 2.26
+- require PHP 8.1+
+- use latest dotclear namespace
+- fix translation
+- fix nullsafe warnings
+- add code inline doc
+
 1.2.2 - 2023.04.06
 - fix pager and count (require dc 2.26 nightly)
 - fix empty submit
