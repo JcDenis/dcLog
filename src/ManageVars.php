@@ -17,7 +17,7 @@ namespace Dotclear\Plugin\dcLog;
 use adminGenericFilterV2;
 use dcAdminFilters;
 use dcCore;
-use dcRecord;
+use Dotclear\Database\MetaRecord;
 use Exception;
 
 class ManageVars
@@ -28,7 +28,7 @@ class ManageVars
     private static $container;
 
     public readonly adminGenericFilterV2 $filter;
-    public readonly ?dcRecord $logs;
+    public readonly ?MetaRecord $logs;
     public readonly ?BackendList $list;
     public readonly array $entries;
     public readonly bool $selected_logs;
