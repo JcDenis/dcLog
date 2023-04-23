@@ -33,7 +33,7 @@ class My
 
     /**
      * This module id.
-     * 
+     *
      * @return  string  The module id
      */
     public static function id(): string
@@ -43,7 +43,7 @@ class My
 
     /**
      * This module name.
-     * 
+     *
      * @return  string  The module translated name
      */
     public static function name(): string
@@ -53,7 +53,7 @@ class My
 
     /**
      * Check php version.
-     * 
+     *
      * @return  bool    True on supported PHP version
      */
     public static function phpCompliant(): bool

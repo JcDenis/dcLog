@@ -74,7 +74,7 @@ class ManageVars
 
     /**
      * Get instance.
-     * 
+     *
      * @return  ManageVars  The instance
      */
     public static function init(): ManageVars

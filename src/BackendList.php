@@ -28,7 +28,7 @@ class BackendList extends adminGenericListV2
 {
     /**
      * Display logs record.
-     * 
+     *
      * @param   int     $page           The current list page
      * @param   int     $nb_per_page    The record per page number
      * @param   string  $enclose_block  The enclose block
@@ -86,7 +86,7 @@ class BackendList extends adminGenericListV2
 
     /**
      * Display a records line.
-     * 
+     *
      * @param   bool    $checked    Selected line
      */
     private function logLine(bool $checked): void
