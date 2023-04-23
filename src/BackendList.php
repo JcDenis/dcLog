@@ -21,8 +21,19 @@ use Dotclear\Helper\Date;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Html\Form\Checkbox;
 
+/**
+ * Backend logs list helper.
+ */
 class BackendList extends adminGenericListV2
 {
+    /**
+     * Display logs record.
+     * 
+     * @param   int     $page           The current list page
+     * @param   int     $nb_per_page    The record per page number
+     * @param   string  $enclose_block  The enclose block
+     * @param   bool    $filter         Filter is applied
+     */
     public function display(int $page, int $nb_per_page, string $enclose_block = '', bool $filter = false): void
     {
         if ($this->rs->isEmpty()) {
@@ -73,6 +84,11 @@ class BackendList extends adminGenericListV2
         }
     }
 
+    /**
+     * Display a records line.
+     * 
+     * @param   bool    $checked    Selected line
+     */
     private function logLine(bool $checked): void
     {
         $cols = [
@@ -105,8 +121,8 @@ class BackendList extends adminGenericListV2
         $this->userColumns(My::BACKEND_LIST_ID, $cols);
 
         echo
-            '<tr class="line" id="p' . $this->rs->log_id . '">' .
-            implode(iterator_to_array($cols)) .
-            '</tr>';
+        '<tr class="line" id="p' . $this->rs->log_id . '">' .
+        implode(iterator_to_array($cols)) .
+        '</tr>';
     }
 }

@@ -20,20 +20,35 @@ use dcCore;
 use Dotclear\Database\MetaRecord;
 use Exception;
 
+/**
+ * Backend logs manage page vars container.
+ */
 class ManageVars
 {
-    /**
-     * @var ManageVars self instance
-     */
+    /** @var    ManageVars  $container  self instance */
     private static $container;
 
+    /** @var    adminGenericFilterV2    $filter     The filter instance */
     public readonly adminGenericFilterV2 $filter;
+
+    /** @var    null|MetaRecord     $logs   The current records */
     public readonly ?MetaRecord $logs;
+
+    /** @var    null|BackendList    $list   The records list form instance */
     public readonly ?BackendList $list;
+
+    /** @var    array   $entries    The post form selected entries */
     public readonly array $entries;
+
+    /** @var    bool    $selected_logs  The post form action */
     public readonly bool $selected_logs;
+
+    /** @var    bool    $all_logs  The post form action */
     public readonly bool $all_logs;
 
+    /**
+     * Constructor grabs post form value and sets properties.
+     */
     protected function __construct()
     {
         $this->entries       = !empty($_POST['entries']) && is_array($_POST['entries']) ? $_POST['entries'] : [];
@@ -57,6 +72,11 @@ class ManageVars
         }
     }
 
+    /**
+     * Get instance.
+     * 
+     * @return  ManageVars  The instance
+     */
     public static function init(): ManageVars
     {
         if (!(self::$container instanceof self)) {

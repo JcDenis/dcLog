@@ -16,6 +16,9 @@ namespace Dotclear\Plugin\dcLog;
 
 use dcCore;
 
+/**
+ * Module definition shortcut.
+ */
 class My
 {
     /**
@@ -29,7 +32,9 @@ class My
     public const BACKEND_LIST_ID = 'dcloglist';
 
     /**
-     * This module id
+     * This module id.
+     * 
+     * @return  string  The module id
      */
     public static function id(): string
     {
@@ -37,7 +42,9 @@ class My
     }
 
     /**
-     * This module name
+     * This module name.
+     * 
+     * @return  string  The module translated name
      */
     public static function name(): string
     {
@@ -45,7 +52,9 @@ class My
     }
 
     /**
-     * Check php version
+     * Check php version.
+     * 
+     * @return  bool    True on supported PHP version
      */
     public static function phpCompliant(): bool
     {

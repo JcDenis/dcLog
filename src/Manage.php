@@ -35,8 +35,9 @@ class Manage extends dcNsProcess
     public static function init(): bool
     {
         static::$init = defined('DC_CONTEXT_ADMIN')
-            && dcCore::app()->auth?->isSuperAdmin()
-            && My::phpCompliant();
+            && My::phpCompliant()
+            && !is_null(dcCore::app()->auth)
+            && dcCore::app()->auth->isSuperAdmin();
 
         return static::$init;
     }
@@ -49,7 +50,7 @@ class Manage extends dcNsProcess
 
         $current = ManageVars::init();
 
-        #  Delete logs
+        // Delete logs
         if ($current->selected_logs && !empty($current->entries) || $current->all_logs) {
             try {
                 dcCore::app()->log->delLogs($current->entries, $current->all_logs);

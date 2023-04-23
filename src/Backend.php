@@ -21,16 +21,14 @@ use dcFavorites;
 use dcNsProcess;
 use dcPage;
 
-/**
- * Manage contributions list
- */
 class Backend extends dcNsProcess
 {
     public static function init(): bool
     {
         static::$init = defined('DC_CONTEXT_ADMIN')
-            && dcCore::app()->auth?->isSuperAdmin()
-            && My::phpCompliant();
+            && My::phpCompliant()
+            && !is_null(dcCore::app()->auth)
+            && dcCore::app()->auth->isSuperAdmin();
 
         return static::$init;
     }
@@ -41,6 +39,7 @@ class Backend extends dcNsProcess
             return false;
         }
 
+        // backend sidebar menu icon
         dcCore::app()->menu[dcAdmin::MENU_SYSTEM]->addItem(
             My::name(),
             dcCore::app()->adminurl?->get('admin.plugin.' . My::id()),
@@ -50,6 +49,7 @@ class Backend extends dcNsProcess
         );
 
         dcCore::app()->addBehaviors([
+            // backend user preference for logs list columns
             'adminColumnsListsV2' => function (ArrayObject $cols): void {
                 $cols[My::BACKEND_LIST_ID] = [
                     My::name(),
@@ -63,7 +63,7 @@ class Backend extends dcNsProcess
                     ],
                 ];
             },
-
+            // backend filter for logs list sort
             'adminFiltersListsV2' => function (ArrayObject $sorts): void {
                 $sorts[My::BACKEND_LIST_ID] = [
                     My::name(),
@@ -80,7 +80,7 @@ class Backend extends dcNsProcess
                     [__('Logs per page'), 30],
                 ];
             },
-
+            // backend user preference for dashboard icon
             'adminDashboardFavoritesV2' => function (dcFavorites $favs): void {
                 $favs->register(My::BACKEND_LIST_ID, [
                     'title'      => My::name(),
