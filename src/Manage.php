@@ -104,8 +104,8 @@ class Manage extends dcNsProcess
                     (new Hidden(['p'], My::id()))->render()
                 );
                 $current->list->display(
-                    (int) $current->filter->__get('page'),
-                    (int) $current->filter->__get('nb'),
+                    is_numeric($current->filter->__get('page')) ? (int) $current->filter->__get('page') : 1,
+                    is_numeric($current->filter->__get('nb')) ? (int) $current->filter->__get('nb') : 10,
                     (new Form('form-entries'))->action(dcCore::app()->adminurl?->get('admin.plugin.' . My::id()))->method('post')->fields([
                         (new Text('', '%s')),
                         (new Div())->class('two-cols')->items([

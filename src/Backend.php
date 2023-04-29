@@ -18,6 +18,7 @@ use ArrayObject;
 use dcAdmin;
 use dcCore;
 use dcFavorites;
+use dcMenu;
 use dcNsProcess;
 use dcPage;
 
@@ -40,13 +41,18 @@ class Backend extends dcNsProcess
         }
 
         // backend sidebar menu icon
-        dcCore::app()->menu[dcAdmin::MENU_SYSTEM]->addItem(
-            My::name(),
-            dcCore::app()->adminurl?->get('admin.plugin.' . My::id()),
-            dcPage::getPF(My::id() . '/icon.svg'),
-            preg_match('/' . preg_quote((string) dcCore::app()->adminurl?->get('admin.plugin.' . My::id())) . '(&.*)?$/', $_SERVER['REQUEST_URI']),
-            dcCore::app()->auth?->isSuperAdmin()
-        );
+        if (!is_null(dcCore::app()->auth)
+            && !is_null(dcCore::app()->adminurl)
+            && (dcCore::app()->menu[dcAdmin::MENU_SYSTEM] instanceof dcMenu)
+        ) {
+            dcCore::app()->menu[dcAdmin::MENU_SYSTEM]->addItem(
+                My::name(),
+                dcCore::app()->adminurl->get('admin.plugin.' . My::id()),
+                dcPage::getPF(My::id() . '/icon.svg'),
+                preg_match('/' . preg_quote((string) dcCore::app()->adminurl->get('admin.plugin.' . My::id())) . '(&.*)?$/', $_SERVER['REQUEST_URI']),
+                dcCore::app()->auth->isSuperAdmin()
+            );
+        }
 
         dcCore::app()->addBehaviors([
             // backend user preference for logs list columns

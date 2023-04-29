@@ -37,7 +37,7 @@ class ManageVars
     /** @var    null|BackendList    $list   The records list form instance */
     public readonly ?BackendList $list;
 
-    /** @var    array   $entries    The post form selected entries */
+    /** @var    array<int,string>   $entries    The post form selected entries */
     public readonly array $entries;
 
     /** @var    bool    $selected_logs  The post form action */
@@ -65,7 +65,8 @@ class ManageVars
 
         try {
             $this->logs = dcCore::app()->log->getLogs($params);
-            $count      = (int) dcCore::app()->log->getLogs($params, true)->f(0);
+            $count      = dcCore::app()->log->getLogs($params, true)->f(0);
+            $count      = is_numeric($count) ? (int) $count : 0;
             $this->list = new BackendList($this->logs, $count);
         } catch (Exception $e) {
             dcCore::app()->error->add($e->getMessage());
