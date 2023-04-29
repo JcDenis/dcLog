@@ -111,12 +111,10 @@ class BackendList extends adminGenericListV2
             'check' => (new Para(null, 'td'))
                 ->class('nowrap minimal')
                 ->items([
-                    (new Checkbox(['entries[]'], $checked))->value($this->rs->log_id),
+                    (new Checkbox(['entries[]'], $checked))
+                        ->value($this->rs->log_id),
                 ]),
-            'date' => (new Text('td', Html::escapeHTML(Date::dt2str(
-                __('%Y-%m-%d %H:%M'),
-                $this->rs->log_dt
-            ))))
+            'date' => (new Text('td', Html::escapeHTML(Date::dt2str(__('%Y-%m-%d %H:%M'),$this->rs->log_dt))))
                 ->class('nowrap minimal'),
             'msg' => (new Text('td', nl2br(Html::escapeHTML($this->rs->log_msg))))
                 ->class('maximal'),

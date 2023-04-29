@@ -97,30 +97,46 @@ class Manage extends dcNsProcess
 
         if ($current->logs !== null && $current->list != null) {
             if ($current->logs->isEmpty() && !$current->filter->show()) {
-                echo (new Text('p', __('There are no logs')))->render();
+                echo
+                (new Text('p', __('There are no logs')))
+                    ->render();
             } else {
                 $current->filter->display(
                     'admin.plugin.' . My::id(),
-                    (new Hidden(['p'], My::id()))->render()
+                    (new Hidden(['p'], My::id()))
+                        ->render()
                 );
                 $current->list->display(
                     is_numeric($current->filter->__get('page')) ? (int) $current->filter->__get('page') : 1,
                     is_numeric($current->filter->__get('nb')) ? (int) $current->filter->__get('nb') : 10,
-                    (new Form('form-entries'))->action(dcCore::app()->adminurl?->get('admin.plugin.' . My::id()))->method('post')->fields([
-                        (new Text('', '%s')),
-                        (new Div())->class('two-cols')->items([
-                            (new Para())->class('col checkboxes-helpers'),
-                            (new Para())->class('col right')->separator('&nbsp;')->items([
-                                (new Submit(['selected_logs']))->class('delete')->value(__('Delete selected logs')),
-                                (new Submit(['all_logs']))->class('delete')->value(__('Delete all logs')),
-                            ]),
-                            (new Text(
-                                '',
-                                dcCore::app()->adminurl?->getHiddenFormFields('admin.plugin.' . My::id(), $current->filter->values()) .
-                                dcCore::app()->formNonce()
-                            )),
-                        ]),
-                    ])->render(),
+                    (new Form('dcLog_form'))
+                        ->action(dcCore::app()->adminurl?->get('admin.plugin.' . My::id()))
+                        ->method('post')
+                        ->fields([
+                            (new Text('', '%s')),
+                            (new Div())
+                                ->class('two-cols')
+                                ->items([
+                                    (new Para())
+                                        ->class('col checkboxes-helpers'),
+                                    (new Para())
+                                        ->class('col right')
+                                        ->separator('&nbsp;')
+                                        ->items([
+                                            (new Submit('selected_logs'))
+                                                ->class('delete')
+                                                ->value(__('Delete selected logs')),
+                                            (new Submit('all_logs'))
+                                                ->class('delete')
+                                                ->value(__('Delete all logs')),
+                                        ]),
+                                        (new Text(
+                                            '',
+                                            dcCore::app()->adminurl?->getHiddenFormFields('admin.plugin.' . My::id(), $current->filter->values()) .
+                                            dcCore::app()->formNonce()
+                                        )),
+                                ]),
+                        ])->render(),
                     $current->filter->show()
                 );
             }
