@@ -132,6 +132,7 @@ class BackendList extends adminGenericListV2
 
         return
         (new Para('p' . $this->rs->log_id, 'tr'))
+            ->class('line')
             ->items(iterator_to_array($cols));
     }
 }
