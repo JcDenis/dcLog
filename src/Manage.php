@@ -77,8 +77,8 @@ class Manage extends dcNsProcess
         $current = ManageVars::init();
 
         dcPage::openModule(
-            __('Pings'),
-            dcPage::jsJson('dclog_list', [
+            My::name(),
+            dcPage::jsJson('dcLog_msg', [
                 'confirm_delete_selected_log' => __('Are you sure you want to delete selected logs?'),
                 'confirm_delete_all_log'      => __('Are you sure you want to delete all logs?'),
             ]) .
