@@ -1,3 +1,10 @@
+1.3.1 - 2023.04.29
+- require dotclear 2.26
+- require PHP 8.1+
+- use Html Form Component everywhere
+- fix submit contidions (js)
+- fix phpstan level9 warnings
+
 1.3 - 2023.04.23
 - require dotclear 2.26
 - require PHP 8.1+
