@@ -19,7 +19,13 @@ use adminGenericListV2;
 use dcPager;
 use Dotclear\Helper\Date;
 use Dotclear\Helper\Html\Html;
-use Dotclear\Helper\Html\Form\Checkbox;
+use Dotclear\Helper\Html\Form\{
+    Component,
+    Div,
+    Checkbox,
+    Para,
+    Text
+};
 
 /**
  * Backend logs list helper.
@@ -34,95 +40,100 @@ class BackendList extends adminGenericListV2
      * @param   string  $enclose_block  The enclose block
      * @param   bool    $filter         Filter is applied
      */
-    public function display(int $page, int $nb_per_page, string $enclose_block = '', bool $filter = false): void
+    public function display(int $page, int $nb_per_page, string $enclose_block = '%s', bool $filter = false): void
     {
         if ($this->rs->isEmpty()) {
-            echo $filter ?
-                '<p><strong>' . __('No log matches the filter') . '</strong></p>' :
-                '<p><strong>' . __('No log') . '</strong></p>';
+            echo
+            (new Text('p', $filter ? __('No log matches the filter') : __('No log')))
+                ->class('info')
+                ->render();
         } else {
-            $pager   = new dcPager($page, $this->rs_count, $nb_per_page, 10);
-            $entries = [];
-            if (isset($_REQUEST['entries'])) {
-                foreach ($_REQUEST['entries'] as $v) {
-                    $entries[(int) $v] = true;
-                }
-            }
+            $pager = new dcPager($page, $this->rs_count, $nb_per_page, 10);
 
             $cols = [
-                'date'  => '<th colspan="2" class="first">' . __('Date') . '</th>',
-                'msg'   => '<th scope="col">' . __('Message') . '</th>',
-                'blog'  => '<th scope="col">' . __('Blog') . '</th>',
-                'table' => '<th scope="col">' . __('Component') . '</th>',
-                'user'  => '<th scope="col">' . __('User') . '</th>',
-                'ip'    => '<th scope="col">' . __('IP') . '</th>',
+                'date' => (new Text('th', __('Date')))
+                    ->class('first')
+                    ->extra('colspan="2"'),
+                'msg' => (new Text('th', __('Message')))
+                    ->extra('scope="col"'),
+                'blog' => (new Text('th', __('Blog')))
+                    ->extra('scope="col"'),
+                'table' => (new Text('th', __('Component')))
+                    ->extra('scope="col"'),
+                'user' => (new Text('th', __('User')))
+                    ->extra('scope="col"'),
+                'ip' => (new Text('th', __('IP')))
+                    ->extra('scope="col"'),
             ];
             $cols = new ArrayObject($cols);
             $this->userColumns(My::BACKEND_LIST_ID, $cols);
 
-            $html_block = '<div class="table-outer"><table><caption>' .
-                (
-                    $filter ?
-                    sprintf(__('List of %s logs matching the filter.'), $this->rs_count) :
-                    sprintf(__('List of logs. (%s)'), $this->rs_count)
-                ) .
-                '</caption><tr>' . implode(iterator_to_array($cols)) . '</tr>%s</table>%s</div>';
-
-            if ($enclose_block) {
-                $html_block = sprintf($enclose_block, $html_block);
-            }
-
-            $blocks = explode('%s', $html_block);
-
-            echo $pager->getLinks() . $blocks[0];
-
+            $lines = [];
             while ($this->rs->fetch()) {
-                $this->logLine(isset($entries[$this->rs->log_id]));
+                $lines[] = $this->line(isset($_POST['entries']) && in_array($this->rs->log_id, $_POST['entries']));
             }
 
-            echo $blocks[1] . $blocks[2] . $pager->getLinks();
+            echo
+            $pager->getLinks() .
+            sprintf(
+                $enclose_block,
+                (new Div())
+                    ->class('table-outer')
+                    ->items([
+                        (new Para(null, 'table'))
+                            ->items([
+                                (new Text(
+                                    'caption',
+                                    $filter ?
+                                    sprintf(__('List of %s logs matching the filter.'), $this->rs_count) :
+                                    sprintf(__('List of logs. (%s)'), $this->rs_count)
+                                )),
+                                (new Para(null, 'tr'))
+                                    ->items(iterator_to_array($cols)),
+                                (new Para(null, 'tbody'))
+                                    ->items($lines),
+                            ]),
+                    ])
+                    ->render()
+            ) .
+            $pager->getLinks();
         }
     }
 
     /**
-     * Display a records line.
+     * Get a records line.
      *
      * @param   bool    $checked    Selected line
      */
-    private function logLine(bool $checked): void
+    private function line(bool $checked): Component
     {
         $cols = [
-            'check' => '<td class="nowrap minimal">' .
-                (new Checkbox(['entries[]'], $checked))->value($this->rs->log_id)->render() .
-                '</td>',
-            'date' => '<td class="nowrap minimal">' .
-                Html::escapeHTML(Date::dt2str(
-                    __('%Y-%m-%d %H:%M'),
-                    $this->rs->log_dt
-                )) .
-                '</td>',
-            'msg' => '<td class="maximal">' .
-                nl2br(Html::escapeHTML($this->rs->log_msg)) .
-                '</td>',
-            'blog' => '<td class="minimal nowrap">' .
-                Html::escapeHTML($this->rs->blog_id) .
-                '</td>',
-            'table' => '<td class="minimal nowrap">' .
-                Html::escapeHTML($this->rs->log_table) .
-                '</td>',
-            'user' => '<td class="minimal nowrap">' .
-                Html::escapeHTML($this->rs->getUserCN()) .
-                '</td>',
-            'ip' => '<td class="minimal nowrap">' .
-                Html::escapeHTML($this->rs->log_ip) .
-                '</td>',
+            'check' => (new Para(null, 'td'))
+                ->class('nowrap minimal')
+                ->items([
+                    (new Checkbox(['entries[]'], $checked))->value($this->rs->log_id),
+                ]),
+            'date' => (new Text('td', Html::escapeHTML(Date::dt2str(
+                __('%Y-%m-%d %H:%M'),
+                $this->rs->log_dt
+            ))))
+                ->class('nowrap minimal'),
+            'msg' => (new Text('td', nl2br(Html::escapeHTML($this->rs->log_msg))))
+                ->class('maximal'),
+            'blog' => (new Text('td', Html::escapeHTML($this->rs->blog_id)))
+                ->class('nowrap minimal'),
+            'table' => (new Text('td', Html::escapeHTML($this->rs->log_table)))
+                ->class('nowrap minimal'),
+            'user' => (new Text('td', Html::escapeHTML($this->rs->getUserCN())))
+                ->class('nowrap minimal'),
+            'ip' => (new Text('td', Html::escapeHTML($this->rs->log_ip)))
+                ->class('nowrap minimal'),
         ];
         $cols = new ArrayObject($cols);
         $this->userColumns(My::BACKEND_LIST_ID, $cols);
 
-        echo
-        '<tr class="line" id="p' . $this->rs->log_id . '">' .
-        implode(iterator_to_array($cols)) .
-        '</tr>';
+        return
+        (new Para('p' . $this->rs->log_id, 'tr'))
+            ->items(iterator_to_array($cols));
     }
 }
