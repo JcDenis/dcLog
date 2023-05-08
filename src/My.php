@@ -17,24 +17,18 @@ namespace Dotclear\Plugin\dcLog;
 use dcCore;
 
 /**
- * Module definition shortcut.
+ * This module definition.
  */
 class My
 {
-    /**
-     * @var string PHP min version
-     */
+    /** @var    string  Admin list ID */
+    public const BACKEND_LIST_ID = 'dcloglist';
+
+    /** @var    string  This module required php version */
     public const PHP_MIN = '8.1';
 
     /**
-     * @var string Admin list ID
-     */
-    public const BACKEND_LIST_ID = 'dcloglist';
-
-    /**
      * This module id.
-     *
-     * @return  string  The module id
      */
     public static function id(): string
     {
@@ -43,20 +37,24 @@ class My
 
     /**
      * This module name.
-     *
-     * @return  string  The module translated name
      */
     public static function name(): string
     {
         $name = dcCore::app()->plugins->moduleInfo(self::id(), 'name');
 
-        return __(is_string($name) ? $name : 'Undefined');
+        return __(is_string($name) ? $name : self::id());
     }
 
     /**
-     * Check php version.
-     *
-     * @return  bool    True on supported PHP version
+     * This module path.
+     */
+    public static function path(): string
+    {
+        return dirname(__DIR__);
+    }
+
+    /**
+     * Check this module PHP version compliant.
      */
     public static function phpCompliant(): bool
     {
