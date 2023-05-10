@@ -20,7 +20,10 @@ $this->registerModule(
     'Tomtom and Contributors',
     '1.3.1',
     [
-        'requires'    => [['core', '2.26']],
+        'requires' => [
+            ['php', '8.1'],
+            ['core', '2.26'],
+        ],
         'permissions' => null,
         'type'        => 'plugin',
         'support'     => 'https://github.com/JcDenis/' . basename(__DIR__),
