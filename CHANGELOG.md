@@ -1,3 +1,8 @@
+1.4 - 2023.05.13
+- require dotclear 2.26
+- require PHP 8.1+
+- use define php_min
+
 1.3.1 - 2023.04.29
 - require dotclear 2.26
 - require PHP 8.1+

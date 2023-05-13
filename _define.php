@@ -18,7 +18,7 @@ $this->registerModule(
     "Dotclear's logs",
     'Displays Dotclear logs',
     'Tomtom and Contributors',
-    '1.3.1',
+    '1.4',
     [
         'requires' => [
             ['php', '8.1'],
