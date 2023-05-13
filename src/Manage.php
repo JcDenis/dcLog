@@ -129,11 +129,11 @@ class Manage extends dcNsProcess
                                                 ->class('delete')
                                                 ->value(__('Delete all logs')),
                                         ]),
-                                        (new Text(
-                                            '',
-                                            dcCore::app()->adminurl?->getHiddenFormFields('admin.plugin.' . My::id(), $current->filter->values()) .
-                                            dcCore::app()->formNonce()
-                                        )),
+                                    (new Text(
+                                        '',
+                                        dcCore::app()->adminurl?->getHiddenFormFields('admin.plugin.' . My::id(), $current->filter->values()) .
+                                        dcCore::app()->formNonce()
+                                    )),
                                 ]),
                         ])->render(),
                     $current->filter->show()
