@@ -47,57 +47,58 @@ class BackendList extends adminGenericListV2
             (new Text('p', $filter ? __('No log matches the filter') : __('No log')))
                 ->class('info')
                 ->render();
-        } else {
-            $pager = new dcPager($page, $this->rs_count, $nb_per_page, 10);
 
-            $cols = [
-                'date' => (new Text('th', __('Date')))
-                    ->class('first')
-                    ->extra('colspan="2"'),
-                'msg' => (new Text('th', __('Message')))
-                    ->extra('scope="col"'),
-                'blog' => (new Text('th', __('Blog')))
-                    ->extra('scope="col"'),
-                'table' => (new Text('th', __('Component')))
-                    ->extra('scope="col"'),
-                'user' => (new Text('th', __('User')))
-                    ->extra('scope="col"'),
-                'ip' => (new Text('th', __('IP')))
-                    ->extra('scope="col"'),
-            ];
-            $cols = new ArrayObject($cols);
-            $this->userColumns(My::BACKEND_LIST_ID, $cols);
-
-            $lines = [];
-            while ($this->rs->fetch()) {
-                $lines[] = $this->line(isset($_POST['entries']) && in_array($this->rs->log_id, $_POST['entries']));
-            }
-
-            echo
-            $pager->getLinks() .
-            sprintf(
-                $enclose_block,
-                (new Div())
-                    ->class('table-outer')
-                    ->items([
-                        (new Para(null, 'table'))
-                            ->items([
-                                (new Text(
-                                    'caption',
-                                    $filter ?
-                                    sprintf(__('List of %s logs matching the filter.'), $this->rs_count) :
-                                    sprintf(__('List of logs. (%s)'), $this->rs_count)
-                                )),
-                                (new Para(null, 'tr'))
-                                    ->items(iterator_to_array($cols)),
-                                (new Para(null, 'tbody'))
-                                    ->items($lines),
-                            ]),
-                    ])
-                    ->render()
-            ) .
-            $pager->getLinks();
+            return;
         }
+
+        $pager = new dcPager($page, $this->rs_count, $nb_per_page, 10);
+
+        $cols = new ArrayObject([
+            'date' => (new Text('th', __('Date')))
+                ->class('first')
+                ->extra('colspan="2"'),
+            'msg' => (new Text('th', __('Message')))
+                ->extra('scope="col"'),
+            'blog' => (new Text('th', __('Blog')))
+                ->extra('scope="col"'),
+            'table' => (new Text('th', __('Component')))
+                ->extra('scope="col"'),
+            'user' => (new Text('th', __('User')))
+                ->extra('scope="col"'),
+            'ip' => (new Text('th', __('IP')))
+                ->extra('scope="col"'),
+        ]);
+        $this->userColumns(My::BACKEND_LIST_ID, $cols);
+
+        $lines = [];
+        while ($this->rs->fetch()) {
+            $lines[] = $this->line(isset($_POST['entries']) && in_array($this->rs->log_id, $_POST['entries']));
+        }
+
+        echo
+        $pager->getLinks() .
+        sprintf(
+            $enclose_block,
+            (new Div())
+                ->class('table-outer')
+                ->items([
+                    (new Para(null, 'table'))
+                        ->items([
+                            (new Text(
+                                'caption',
+                                $filter ?
+                                sprintf(__('List of %s logs matching the filter.'), $this->rs_count) :
+                                sprintf(__('List of logs. (%s)'), $this->rs_count)
+                            )),
+                            (new Para(null, 'tr'))
+                                ->items(iterator_to_array($cols)),
+                            (new Para(null, 'tbody'))
+                                ->items($lines),
+                        ]),
+                ])
+                ->render()
+        ) .
+        $pager->getLinks();
     }
 
     /**
@@ -107,7 +108,7 @@ class BackendList extends adminGenericListV2
      */
     private function line(bool $checked): Component
     {
-        $cols = [
+        $cols = new ArrayObject([
             'check' => (new Para(null, 'td'))
                 ->class('nowrap minimal')
                 ->items([
@@ -126,8 +127,7 @@ class BackendList extends adminGenericListV2
                 ->class('nowrap minimal'),
             'ip' => (new Text('td', Html::escapeHTML($this->rs->log_ip)))
                 ->class('nowrap minimal'),
-        ];
-        $cols = new ArrayObject($cols);
+        ]);
         $this->userColumns(My::BACKEND_LIST_ID, $cols);
 
         return
