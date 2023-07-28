@@ -3,7 +3,7 @@
 [![Release](https://img.shields.io/github/v/release/JcDenis/dcLog)](https://github.com/JcDenis/dcLog/releases)
 [![Date](https://img.shields.io/github/release-date/JcDenis/dcLog)](https://github.com/JcDenis/dcLog/releases)
 [![Issues](https://img.shields.io/github/issues/JcDenis/dcLog)](https://github.com/JcDenis/dcLog/issues)
-[![Dotclear](https://img.shields.io/badge/dotclear-v2.26-blue.svg)](https://fr.dotclear.org/download)
+[![Dotclear](https://img.shields.io/badge/dotclear-v2.27-blue.svg)](https://fr.dotclear.org/download)
 [![Dotaddict](https://img.shields.io/badge/dotaddict-official-green.svg)](https://plugins.dotaddict.org/dc2/details/dcLog)
 [![License](https://img.shields.io/github/license/JcDenis/dcLog)](https://github.com/JcDenis/dcLog/blob/master/LICENSE)
 
@@ -19,7 +19,7 @@ Display dotclear's logs.
  _dcLog_ requires: 
 
   * PHP 8.1+
-  * Dotclear 2.26
+  * Dotclear 2.27
   * super admin permission
 
 ## USAGE

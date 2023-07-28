@@ -15,8 +15,10 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\dcLog;
 
 use ArrayObject;
-use adminGenericListV2;
-use dcPager;
+use Dotclear\Core\Backend\Listing\{
+    Listing,
+    Pager
+};
 use Dotclear\Helper\Date;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Html\Form\{
@@ -30,7 +32,7 @@ use Dotclear\Helper\Html\Form\{
 /**
  * Backend logs list helper.
  */
-class BackendList extends adminGenericListV2
+class BackendList extends Listing
 {
     /**
      * Display logs record.
@@ -51,7 +53,7 @@ class BackendList extends adminGenericListV2
             return;
         }
 
-        $pager = new dcPager($page, $this->rs_count, $nb_per_page, 10);
+        $pager = new Pager($page, $this->rs_count, $nb_per_page, 10);
 
         $cols = new ArrayObject([
             'date' => (new Text('th', __('Date')))

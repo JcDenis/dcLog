@@ -15,43 +15,26 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\dcLog;
 
 use ArrayObject;
-use dcAdmin;
 use dcCore;
-use dcFavorites;
-use dcMenu;
-use dcNsProcess;
-use dcPage;
+use Dotclear\Core\Process;
+use Dotclear\Core\Backend\Favorites;
+use Dotclear\Core\Backend\Menus;
 
-class Backend extends dcNsProcess
+class Backend extends Process
 {
     public static function init(): bool
     {
-        static::$init = defined('DC_CONTEXT_ADMIN')
-            && !is_null(dcCore::app()->auth)
-            && dcCore::app()->auth->isSuperAdmin();
-
-        return static::$init;
+        return self::status(My::checkContext(My::BACKEND));
+        ;
     }
 
     public static function process(): bool
     {
-        if (!static::$init) {
+        if (!self::status()) {
             return false;
         }
 
-        // backend sidebar menu icon
-        if (!is_null(dcCore::app()->auth)
-            && !is_null(dcCore::app()->adminurl)
-            && (dcCore::app()->menu[dcAdmin::MENU_SYSTEM] instanceof dcMenu)
-        ) {
-            dcCore::app()->menu[dcAdmin::MENU_SYSTEM]->addItem(
-                My::name(),
-                dcCore::app()->adminurl->get('admin.plugin.' . My::id()),
-                dcPage::getPF(My::id() . '/icon.svg'),
-                preg_match('/' . preg_quote((string) dcCore::app()->adminurl->get('admin.plugin.' . My::id())) . '(&.*)?$/', $_SERVER['REQUEST_URI']),
-                dcCore::app()->auth->isSuperAdmin()
-            );
-        }
+        My::addBackendMenuItem(Menus::MENU_SYSTEM);
 
         dcCore::app()->addBehaviors([
             // backend user preference for logs list columns
@@ -86,12 +69,12 @@ class Backend extends dcNsProcess
                 ];
             },
             // backend user preference for dashboard icon
-            'adminDashboardFavoritesV2' => function (dcFavorites $favs): void {
+            'adminDashboardFavoritesV2' => function (Favorites $favs): void {
                 $favs->register(My::BACKEND_LIST_ID, [
                     'title'      => My::name(),
-                    'url'        => dcCore::app()->adminurl?->get('admin.plugin.' . My::id()),
-                    'small-icon' => dcPage::getPF(My::id() . '/icon.svg'),
-                    'large-icon' => dcPage::getPF(My::id() . '/icon.svg'),
+                    'url'        => My::manageUrl(),
+                    'small-icon' => My::icons(),
+                    'large-icon' => My::icons(),
                     //'permissions' => null,
                 ]);
             },

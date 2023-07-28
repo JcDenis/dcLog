@@ -14,9 +14,11 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\dcLog;
 
-use adminGenericFilterV2;
-use dcAdminFilters;
 use dcCore;
+use Dotclear\Core\Backend\Filter\{
+    Filters,
+    FiltersLibrary
+};
 use Dotclear\Database\MetaRecord;
 use Exception;
 
@@ -28,8 +30,8 @@ class ManageVars
     /** @var    ManageVars  $container  self instance */
     private static $container;
 
-    /** @var    adminGenericFilterV2    $filter     The filter instance */
-    public readonly adminGenericFilterV2 $filter;
+    /** @var    Filters     $filter     The filter instance */
+    public readonly Filters $filter;
 
     /** @var    null|MetaRecord     $logs   The current records */
     public readonly ?MetaRecord $logs;
@@ -55,12 +57,12 @@ class ManageVars
         $this->all_logs      = isset($_POST['all_logs']);
         $this->selected_logs = isset($_POST['selected_logs']);
 
-        $this->filter = new adminGenericFilterV2('dcloglist');
-        $this->filter->add(dcAdminFilters::getPageFilter());
-        $this->filter->add(dcAdminFilters::getInputFilter('blog_id', __('Blog:')));
-        $this->filter->add(dcAdminFilters::getInputFilter('user_id', __('User:')));
-        $this->filter->add(dcAdminFilters::getInputFilter('log_table', __('Component:')));
-        $this->filter->add(dcAdminFilters::getInputFilter('log_ip', __('IP:')));
+        $this->filter = new Filters('dcloglist');
+        $this->filter->add(FiltersLibrary::getPageFilter());
+        $this->filter->add(FiltersLibrary::getInputFilter('blog_id', __('Blog:')));
+        $this->filter->add(FiltersLibrary::getInputFilter('user_id', __('User:')));
+        $this->filter->add(FiltersLibrary::getInputFilter('log_table', __('Component:')));
+        $this->filter->add(FiltersLibrary::getInputFilter('log_ip', __('IP:')));
         $params = $this->filter->params();
 
         try {

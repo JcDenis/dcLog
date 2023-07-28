@@ -15,8 +15,11 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\dcLog;
 
 use dcCore;
-use dcNsProcess;
-use dcPage;
+use Dotclear\Core\Process;
+use Dotclear\Core\Backend\{
+    Notices,
+    Page
+};
 use Dotclear\Helper\Html\Form\{
     Div,
     Form,
@@ -30,20 +33,16 @@ use Exception;
 /**
  * Manage logs list
  */
-class Manage extends dcNsProcess
+class Manage extends Process
 {
     public static function init(): bool
     {
-        static::$init = defined('DC_CONTEXT_ADMIN')
-            && !is_null(dcCore::app()->auth)
-            && dcCore::app()->auth->isSuperAdmin();
-
-        return static::$init;
+        return self::status(My::checkContext(My::MANAGE));
     }
 
     public static function process(): bool
     {
-        if (!static::$init) {
+        if (!self::status()) {
             return false;
         }
 
@@ -53,12 +52,12 @@ class Manage extends dcNsProcess
         if ($current->selected_logs && !empty($current->entries) || $current->all_logs) {
             try {
                 dcCore::app()->log->delLogs($current->entries, $current->all_logs);
-                dcPage::addSuccessNotice(
+                Notices::addSuccessNotice(
                     $current->all_logs ?
                     __('All logs have been successfully deleted') :
                     __('Selected logs have been successfully deleted')
                 );
-                dcCore::app()->adminurl?->redirect('admin.plugin.' . My::id());
+                My::redirect();
             } catch (Exception $e) {
                 dcCore::app()->error->add($e->getMessage());
             }
@@ -69,30 +68,30 @@ class Manage extends dcNsProcess
 
     public static function render(): void
     {
-        if (!static::$init) {
+        if (!self::status()) {
             return;
         }
 
         $current = ManageVars::init();
 
-        dcPage::openModule(
+        Page::openModule(
             My::name(),
-            dcPage::jsJson('dcLog_msg', [
+            Page::jsJson('dcLog_msg', [
                 'confirm_delete_selected_log' => __('Are you sure you want to delete selected logs?'),
                 'confirm_delete_all_log'      => __('Are you sure you want to delete all logs?'),
             ]) .
-            $current->filter->js((string) dcCore::app()->adminurl?->get('admin.plugin.' . My::id())) .
-            dcPage::jsLoad(dcPage::getPF(My::id() . '/js/backend.js'))
+            $current->filter->js((string) My::manageUrl()) .
+            My::jsLoad('backend')
         );
 
         echo
-        dcPage::breadcrumb(
+        Page::breadcrumb(
             [
                 __('System') => '',
-                My::name()   => dcCore::app()->adminurl?->get('admin.plugin.' . My::id()),
+                My::name()   => My::manageUrl(),
             ]
         ) .
-        dcPage::notices();
+        Notices::getNotices();
 
         if ($current->logs !== null && $current->list != null) {
             if ($current->logs->isEmpty() && !$current->filter->show()) {
@@ -109,7 +108,7 @@ class Manage extends dcNsProcess
                     is_numeric($current->filter->__get('page')) ? (int) $current->filter->__get('page') : 1,
                     is_numeric($current->filter->__get('nb')) ? (int) $current->filter->__get('nb') : 10,
                     (new Form('dcLog_form'))
-                        ->action(dcCore::app()->adminurl?->get('admin.plugin.' . My::id()))
+                        ->action(My::manageUrl())
                         ->method('post')
                         ->fields([
                             (new Text('', '%s')),
@@ -131,7 +130,7 @@ class Manage extends dcNsProcess
                                         ]),
                                     (new Text(
                                         '',
-                                        dcCore::app()->adminurl?->getHiddenFormFields('admin.plugin.' . My::id(), $current->filter->values()) .
+                                        dcCore::app()->admin->url->getHiddenFormFields('admin.plugin.' . My::id(), $current->filter->values()) .
                                         dcCore::app()->formNonce()
                                     )),
                                 ]),
@@ -141,6 +140,6 @@ class Manage extends dcNsProcess
             }
         }
 
-        dcPage::closeModule();
+        Page::closeModule();
     }
 }
