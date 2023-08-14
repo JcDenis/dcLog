@@ -25,7 +25,6 @@ class Backend extends Process
     public static function init(): bool
     {
         return self::status(My::checkContext(My::BACKEND));
-        ;
     }
 
     public static function process(): bool
