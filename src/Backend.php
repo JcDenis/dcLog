@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\dcLog;
 
 use ArrayObject;
-use dcCore;
+use Dotclear\App;
 use Dotclear\Core\Process;
 use Dotclear\Core\Backend\Favorites;
 use Dotclear\Core\Backend\Menus;
@@ -35,7 +35,7 @@ class Backend extends Process
 
         My::addBackendMenuItem(Menus::MENU_SYSTEM);
 
-        dcCore::app()->addBehaviors([
+        App::behavior()->addBehaviors([
             // backend user preference for logs list columns
             'adminColumnsListsV2' => function (ArrayObject $cols): void {
                 $cols[My::BACKEND_LIST_ID] = [

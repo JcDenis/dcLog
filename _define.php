@@ -18,11 +18,11 @@ $this->registerModule(
     "Dotclear's logs",
     'Displays Dotclear logs',
     'Tomtom and Contributors',
-    '1.6',
+    '1.7',
     [
         'requires' => [
             ['php', '8.1'],
-            ['core', '2.27'],
+            ['core', '2.28'],
         ],
         'permissions' => null,
         'type'        => 'plugin',

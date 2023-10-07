@@ -1,24 +1,21 @@
 # README
 
-[![Release](https://img.shields.io/badge/release-1.6-a2cbe9.svg)](https://git.dotclear.watch/JcDenis/dcLog/releases)
-[![Date](https://img.shields.io/badge/date-2023.08.14-c44d58.svg)](https://git.dotclear.watch/JcDenis/dcLog/releases)
-[![Dotclear](https://img.shields.io/badge/dotclear-v2.27-137bbb.svg)](https://fr.dotclear.org/download)
+[![Release](https://img.shields.io/badge/release-1.7-a2cbe9.svg)](https://git.dotclear.watch/JcDenis/dcLog/releases)
+![Date](https://img.shields.io/badge/date-2023.10.07-c44d58.svg)
+[![Dotclear](https://img.shields.io/badge/dotclear-v2.28-137bbb.svg)](https://fr.dotclear.org/download)
 [![Dotaddict](https://img.shields.io/badge/dotaddict-official-9ac123.svg)](https://plugins.dotaddict.org/dc2/details/dcLog)
-[![License](https://img.shields.io/github/license/JcDenis/dcLog)](https://git.dotclear.watch/JcDenis/dcLog/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/license-GPL--2.0-ececec.svg)](https://git.dotclear.watch/JcDenis/dcLog/src/branch/master/LICENSE)
 
-## WHAT IS DCLOG ?
+## ABOUT
 
-_dcLog_ is a plugin for the open-source 
-web publishing software called Dotclear.
+_dcLog_ is a plugin for the open-source web publishing software called [Dotclear](https://www.dotclear.org).
 
-Display dotclear's logs.
+> Display dotclear's logs.
 
 ## REQUIREMENTS
 
-_dcLog_ requires: 
-
 * PHP 8.1+
-* Dotclear 2.27
+* Dotclear 2.28
 * super admin permission
 
 ## USAGE
@@ -31,9 +28,10 @@ Once it's done you can manage your logs from menu
 
 ## LINKS
 
-* License : [GNU GPL v2](https://www.gnu.org/licenses/old-licenses/lgpl-2.0.html)
-* Source & contribution : [Gitea Page](https://git.dotclear.watch/JcDenis/dcLog) or [GitHub Page](https://github.com/JcDenis/dcLog)
-* Packages & details: [Gitea Page](https://git.dotclear.watch/JcDenis/dcLog/releases) or [Dotaddict Page](https://plugins.dotaddict.org/dc2/details/dcLog)
+* [License](https://git.dotclear.watch/JcDenis/dcLog/src/branch/master/LICENSE)
+* [Packages & details](https://git.dotclear.watch/JcDenis/dcLog/releases) (or on [Dotaddict](https://plugins.dotaddict.org/dc2/details/dcLog))
+* [Sources & contributions](https://git.dotclear.watch/JcDenis/dcLog) (or on [GitHub](https://github.com/JcDenis/dcLog))
+* [Issues & security](https://git.dotclear.watch/JcDenis/dcLog/issues) (or on [GitHub](https://github.com/JcDenis/dcLog/issues))
 
 ## CONTRIBUTORS
 

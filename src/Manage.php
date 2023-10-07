@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\dcLog;
 
-use dcCore;
+use Dotclear\App;
 use Dotclear\Core\Process;
 use Dotclear\Core\Backend\{
     Notices,
@@ -51,7 +51,11 @@ class Manage extends Process
         // Delete logs
         if ($current->selected_logs && !empty($current->entries) || $current->all_logs) {
             try {
-                dcCore::app()->log->delLogs($current->entries, $current->all_logs);
+                if ($current->all_logs) {
+                    App::log()->delAllLogs();
+                } else {
+                    App::log()->delLogs($current->entries);
+                }
                 Notices::addSuccessNotice(
                     $current->all_logs ?
                     __('All logs have been successfully deleted') :
@@ -59,7 +63,7 @@ class Manage extends Process
                 );
                 My::redirect();
             } catch (Exception $e) {
-                dcCore::app()->error->add($e->getMessage());
+                App::error()->add($e->getMessage());
             }
         }
 
@@ -128,11 +132,7 @@ class Manage extends Process
                                                 ->class('delete')
                                                 ->value(__('Delete all logs')),
                                         ]),
-                                    (new Text(
-                                        '',
-                                        dcCore::app()->admin->url->getHiddenFormFields('admin.plugin.' . My::id(), $current->filter->values()) .
-                                        dcCore::app()->formNonce()
-                                    )),
+                                    ... My::hiddenFields($current->filter->values()),
                                 ]),
                         ])->render(),
                     $current->filter->show()
