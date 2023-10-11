@@ -1,15 +1,5 @@
 <?php
-/**
- * @brief dcLog, a plugin for Dotclear 2
- *
- * @package Dotclear
- * @subpackage Plugin
- *
- * @author Tomtom and Contributors
- *
- * @copyright Jean-Christian Denis
- * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
- */
+
 declare(strict_types=1);
 
 namespace Dotclear\Plugin\dcLog;
@@ -23,29 +13,62 @@ use Dotclear\Database\MetaRecord;
 use Exception;
 
 /**
- * Backend logs manage page vars container.
+ * @brief   dcLog properties helper.
+ * @ingroup dcLog
+ *
+ * @author      Tomtom (author)
+ * @author      Jean-Christian Denis (latest)
+ * @copyright   GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
 class ManageVars
 {
-    /** @var    ManageVars  $container  self instance */
+    /**
+     * ManageVars instance.
+     *
+     * @var     ManageVars  $container
+     */
     private static $container;
 
-    /** @var    Filters     $filter     The filter instance */
+    /**
+     * The filter instance.
+     *
+     * @var     Filters     $filter
+     */
     public readonly Filters $filter;
 
-    /** @var    null|MetaRecord     $logs   The current records */
+    /**
+     * The current records.
+     *
+     * @var     null|MetaRecord     $logs
+     */
     public readonly ?MetaRecord $logs;
 
-    /** @var    null|BackendList    $list   The records list form instance */
+    /**
+     * The records list form instance.
+     *
+     * @var     null|BackendList    $list
+     */
     public readonly ?BackendList $list;
 
-    /** @var    array<int,string>   $entries    The post form selected entries */
+    /**
+     * The post form selected entries.
+     *
+     * @var     array<int,string>   $entries
+     */
     public readonly array $entries;
 
-    /** @var    bool    $selected_logs  The post form action */
+    /**
+     * The post form action.
+     *
+     * @var     bool    $selected_logs
+     */
     public readonly bool $selected_logs;
 
-    /** @var    bool    $all_logs  The post form action */
+    /**
+     * The post form action.
+     *
+     * @var     bool    $all_logs
+     */
     public readonly bool $all_logs;
 
     /**

@@ -36,6 +36,6 @@ Once it's done you can manage your logs from menu
 ## CONTRIBUTORS
 
 * Tomtom (author)
-* Jean-Christian Denis
+* Jean-Christian Denis (latest)
 
 You are welcome to contribute to this code.

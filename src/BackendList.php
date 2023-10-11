@@ -1,15 +1,5 @@
 <?php
-/**
- * @brief dcLog, a plugin for Dotclear 2
- *
- * @package Dotclear
- * @subpackage Plugin
- *
- * @author Tomtom and Contributors
- *
- * @copyright Jean-Christian Denis
- * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
- */
+
 declare(strict_types=1);
 
 namespace Dotclear\Plugin\dcLog;
@@ -30,7 +20,12 @@ use Dotclear\Helper\Html\Form\{
 };
 
 /**
- * Backend logs list helper.
+ * @brief   dcLog logs list class.
+ * @ingroup dcLog
+ *
+ * @author      Tomtom (author)
+ * @author      Jean-Christian Denis (latest)
+ * @copyright   GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
 class BackendList extends Listing
 {
@@ -53,7 +48,7 @@ class BackendList extends Listing
             return;
         }
 
-        $pager = new Pager($page, $this->rs_count, $nb_per_page, 10);
+        $pager = new Pager($page, (int) $this->rs_count, $nb_per_page, 10);
 
         $cols = new ArrayObject([
             'date' => (new Text('th', __('Date')))
@@ -74,7 +69,7 @@ class BackendList extends Listing
 
         $lines = [];
         while ($this->rs->fetch()) {
-            $lines[] = $this->line(isset($_POST['entries']) && in_array($this->rs->log_id, $_POST['entries']));
+            $lines[] = $this->line(isset($_POST['entries']) && in_array($this->rs->f('log_id'), $_POST['entries']));
         }
 
         echo
@@ -115,25 +110,25 @@ class BackendList extends Listing
                 ->class('nowrap minimal')
                 ->items([
                     (new Checkbox(['entries[]'], $checked))
-                        ->value($this->rs->log_id),
+                        ->value($this->rs->f('log_id')),
                 ]),
-            'date' => (new Text('td', Html::escapeHTML(Date::dt2str(__('%Y-%m-%d %H:%M'), $this->rs->log_dt))))
+            'date' => (new Text('td', Html::escapeHTML(Date::dt2str(__('%Y-%m-%d %H:%M'), $this->rs->f('log_dt')))))
                 ->class('nowrap minimal'),
-            'msg' => (new Text('td', nl2br(Html::escapeHTML($this->rs->log_msg))))
+            'msg' => (new Text('td', nl2br(Html::escapeHTML($this->rs->f('log_msg')))))
                 ->class('maximal'),
-            'blog' => (new Text('td', Html::escapeHTML($this->rs->blog_id)))
+            'blog' => (new Text('td', Html::escapeHTML($this->rs->f('blog_id'))))
                 ->class('nowrap minimal'),
-            'table' => (new Text('td', Html::escapeHTML($this->rs->log_table)))
+            'table' => (new Text('td', Html::escapeHTML($this->rs->f('log_table'))))
                 ->class('nowrap minimal'),
             'user' => (new Text('td', Html::escapeHTML($this->rs->getUserCN())))
                 ->class('nowrap minimal'),
-            'ip' => (new Text('td', Html::escapeHTML($this->rs->log_ip)))
+            'ip' => (new Text('td', Html::escapeHTML($this->rs->f('log_ip'))))
                 ->class('nowrap minimal'),
         ]);
         $this->userColumns(My::BACKEND_LIST_ID, $cols);
 
         return
-        (new Para('p' . $this->rs->log_id, 'tr'))
+        (new Para('p' . $this->rs->f('log_id'), 'tr'))
             ->class('line')
             ->items(iterator_to_array($cols));
     }

@@ -1,15 +1,5 @@
 <?php
-/**
- * @brief dcLog, a plugin for Dotclear 2
- *
- * @package Dotclear
- * @subpackage Plugin
- *
- * @author Tomtom and Contributors
- *
- * @copyright Jean-Christian Denis
- * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
- */
+
 declare(strict_types=1);
 
 namespace Dotclear\Plugin\dcLog;
@@ -18,8 +8,15 @@ use ArrayObject;
 use Dotclear\App;
 use Dotclear\Core\Process;
 use Dotclear\Core\Backend\Favorites;
-use Dotclear\Core\Backend\Menus;
 
+/**
+ * @brief   dcLog backend class.
+ * @ingroup dcLog
+ *
+ * @author      Tomtom (author)
+ * @author      Jean-Christian Denis (latest)
+ * @copyright   GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
+ */
 class Backend extends Process
 {
     public static function init(): bool
@@ -33,7 +30,7 @@ class Backend extends Process
             return false;
         }
 
-        My::addBackendMenuItem(Menus::MENU_SYSTEM);
+        My::addBackendMenuItem(App::backend()->menus::MENU_SYSTEM);
 
         App::behavior()->addBehaviors([
             // backend user preference for logs list columns

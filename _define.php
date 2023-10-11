@@ -1,29 +1,26 @@
 <?php
 /**
- * @brief dcLog, a plugin for Dotclear 2
+ * @file
+ * @brief       The plugin dcLog definition
+ * @ingroup     dcLog
  *
- * @package Dotclear
- * @subpackage Plugin
+ * @defgroup    dcLog Plugin dcLog.
  *
- * @author Tomtom and Contributors
+ * Displays Dotclear logs.
  *
- * @copyright Jean-Christian Denis
- * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
+ * @author      Tomtom (author)
+ * @author      Jean-Christian Denis (latest)
+ * @copyright   GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
-if (!defined('DC_RC_PATH')) {
-    return null;
-}
+declare(strict_types=1);
 
 $this->registerModule(
     "Dotclear's logs",
     'Displays Dotclear logs',
     'Tomtom and Contributors',
-    '1.7',
+    '1.7.1',
     [
-        'requires' => [
-            ['php', '8.1'],
-            ['core', '2.28'],
-        ],
+        'requires'    => [['core', '2.28']],
         'permissions' => null,
         'type'        => 'plugin',
         'support'     => 'https://git.dotclear.watch/JcDenis/' . basename(__DIR__) . '/issues',

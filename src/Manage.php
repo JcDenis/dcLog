@@ -31,7 +31,12 @@ use Dotclear\Helper\Html\Form\{
 use Exception;
 
 /**
- * Manage logs list
+ * @brief   dcLog manage class.
+ * @ingroup dcLog
+ *
+ * @author      Tomtom (author)
+ * @author      Jean-Christian Denis (latest)
+ * @copyright   GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
 class Manage extends Process
 {
