@@ -1,3 +1,9 @@
+dcLog 1.7.2 - 2023.10.13
+===========================================================
+* Require Dotclear 2.28
+* Require PHP 8.1
+* Upgrade to last minute change to Dotclear 2.28
+
 dcLog 1.7.1 - 2023.10.11
 ===========================================================
 * Require Dotclear 2.28

@@ -30,7 +30,7 @@ class Backend extends Process
             return false;
         }
 
-        My::addBackendMenuItem(App::backend()->menus::MENU_SYSTEM);
+        My::addBackendMenuItem(App::backend()->menus()::MENU_SYSTEM);
 
         App::behavior()->addBehaviors([
             // backend user preference for logs list columns
