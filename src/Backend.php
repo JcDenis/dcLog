@@ -10,8 +10,8 @@ use Dotclear\Core\Process;
 use Dotclear\Core\Backend\Favorites;
 
 /**
- * @brief   dcLog backend class.
- * @ingroup dcLog
+ * @brief       dcLog backend class.
+ * @ingroup     dcLog
  *
  * @author      Tomtom (author)
  * @author      Jean-Christian Denis (latest)

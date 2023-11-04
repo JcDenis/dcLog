@@ -8,8 +8,8 @@ use Dotclear\App;
 use Dotclear\Module\MyPlugin;
 
 /**
- * @brief   dcLog My helper.
- * @ingroup dcLog
+ * @brief       dcLog My helper.
+ * @ingroup     dcLog
  *
  * @author      Tomtom (author)
  * @author      Jean-Christian Denis (latest)
@@ -26,7 +26,10 @@ class My extends MyPlugin
 
     public static function checkCustomContext(int $context): ?bool
     {
-        // Limit module to super admin
-        return App::auth()->isSuperAdmin();
+        return match ($context) {
+            // Limit to super admin
+            self::MODULE => App::auth()->isSuperAdmin(),
+            default      => null,
+        };
     }
 }

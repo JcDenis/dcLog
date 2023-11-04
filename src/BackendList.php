@@ -20,8 +20,8 @@ use Dotclear\Helper\Html\Form\{
 };
 
 /**
- * @brief   dcLog logs list class.
- * @ingroup dcLog
+ * @brief       dcLog logs list class.
+ * @ingroup     dcLog
  *
  * @author      Tomtom (author)
  * @author      Jean-Christian Denis (latest)

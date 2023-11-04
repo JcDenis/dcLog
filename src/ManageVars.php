@@ -13,8 +13,8 @@ use Dotclear\Database\MetaRecord;
 use Exception;
 
 /**
- * @brief   dcLog properties helper.
- * @ingroup dcLog
+ * @brief       dcLog properties helper.
+ * @ingroup     dcLog
  *
  * @author      Tomtom (author)
  * @author      Jean-Christian Denis (latest)
