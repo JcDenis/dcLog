@@ -79,7 +79,7 @@ class Manage extends Process
                 'confirm_delete_selected_log' => __('Are you sure you want to delete selected logs?'),
                 'confirm_delete_all_log'      => __('Are you sure you want to delete all logs?'),
             ]) .
-            $current->filter->js((string) My::manageUrl()) .
+            $current->filter->js((string) My::manageUrl([], '&')) .
             My::jsLoad('backend')
         );
 
