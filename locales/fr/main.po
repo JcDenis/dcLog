@@ -1,69 +1,96 @@
+# Language: Français
+# Module: dcLog - 1.7.5
+# Date: 2025-09-03 06:24:58
+# Author: , contact@jcdenis.fr
+# Translated with translater 2025.03.03
+
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
-"Project-Id-Version: dcLog 1.2\n"
+"Project-Id-Version: dcLog 1.7.5\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2023-03-11T15:06:19+00:00\n"
+"PO-Revision-Date: 2025-09-03T06:24:58+00:00\n"
 "Last-Translator: Jean-Christian Denis\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#: src/Backend.php:42
+#: src/BackendList.php:57
 msgid "Message"
 msgstr "Message"
 
+#: src/Backend.php:44
+#: src/BackendList.php:61
 msgid "Component"
 msgstr "Composant"
 
+#: src/Backend.php:45
+#: src/BackendList.php:63
 msgid "User"
 msgstr "Utilisateur"
 
+#: src/Backend.php:64
 msgid "Logs per page"
 msgstr "Logs par page"
 
+#: src/BackendList.php:44
 msgid "No log matches the filter"
 msgstr "Aucun log ne correspond au filtre"
 
+#: src/BackendList.php:44
 msgid "No log"
 msgstr "Aucun log"
 
+#: src/BackendList.php:87
 msgid "List of %s logs matching the filter."
 msgstr "Liste des %s logs correspondants au filtre."
 
+#: src/BackendList.php:88
 msgid "List of logs. (%s)"
 msgstr "Liste des logs. (%s)"
 
+#: src/Manage.php:56
 msgid "All logs have been successfully deleted"
 msgstr "Tous les logs ont été supprimé avec succès"
 
+#: src/Manage.php:57
 msgid "Selected logs have been successfully deleted"
 msgstr "Les logs sélectionnés ont été supprimé avec succès"
 
-msgid "User:"
-msgstr "Utilisateur :"
-
-msgid "Component:"
-msgstr "Composant :"
-
-msgid "IP:"
-msgstr "IP :"
-
+#: src/Manage.php:79
 msgid "Are you sure you want to delete selected logs?"
 msgstr "Êtes vous sur de vouloir supprimer les logs sélectionnés?"
 
+#: src/Manage.php:80
 msgid "Are you sure you want to delete all logs?"
 msgstr "Êtes vous sur de vouloir supprimer tous les logs"
 
+#: src/Manage.php:98
 msgid "There are no logs"
 msgstr "Il n'y a aucun log"
 
+#: src/Manage.php:125
 msgid "Delete selected logs"
 msgstr "Supprimer les logs sélectionnés"
 
+#: src/Manage.php:128
 msgid "Delete all logs"
 msgstr "Supprimer tous les logs"
 
+#: src/ManageVars.php:86
+msgid "User:"
+msgstr "Utilisateur :"
+
+#: src/ManageVars.php:87
+msgid "Component:"
+msgstr "Composant :"
+
+#: src/ManageVars.php:88
+msgid "IP:"
+msgstr "IP :"
+
 msgid "Dotclear's logs"
-msgstr "Logs"
+msgstr "Journaux"
 
