@@ -5,19 +5,15 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\dcLog;
 
 use ArrayObject;
-use Dotclear\Core\Backend\Listing\{
-    Listing,
-    Pager
-};
+use Dotclear\Core\Backend\Listing\Listing;
+use Dotclear\Core\Backend\Listing\Pager;
 use Dotclear\Helper\Date;
 use Dotclear\Helper\Html\Html;
-use Dotclear\Helper\Html\Form\{
-    Component,
-    Div,
-    Checkbox,
-    Para,
-    Text
-};
+use Dotclear\Helper\Html\Form\Component;
+use Dotclear\Helper\Html\Form\Div;
+use Dotclear\Helper\Html\Form\Checkbox;
+use Dotclear\Helper\Html\Form\Para;
+use Dotclear\Helper\Html\Form\Text;
 
 /**
  * @brief       dcLog logs list class.

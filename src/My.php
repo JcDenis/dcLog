@@ -28,6 +28,7 @@ class My extends MyPlugin
     {
         return match ($context) {
             // Limit to super admin
+            self::MENU,
             self::MODULE => App::auth()->isSuperAdmin(),
             default      => null,
         };

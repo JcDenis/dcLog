@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\dcLog;
 
 use Dotclear\App;
-use Dotclear\Core\Backend\Filter\{
-    Filters,
-    FiltersLibrary
-};
+use Dotclear\Core\Backend\Filter\Filters;
+use Dotclear\Core\Backend\Filter\FiltersLibrary;
 use Dotclear\Database\MetaRecord;
 use Exception;
 
@@ -25,9 +23,9 @@ class ManageVars
     /**
      * ManageVars instance.
      *
-     * @var     ManageVars  $container
+     * @var     ManageVars  $instance
      */
-    private static $container;
+    private static ManageVars $instance;
 
     /**
      * The filter instance.
@@ -105,10 +103,10 @@ class ManageVars
      */
     public static function init(): ManageVars
     {
-        if (!(self::$container instanceof self)) {
-            self::$container = new self();
+        if (!isset(self::$instance)) {
+            self::$instance = new self();
         }
 
-        return self::$container;
+        return self::$instance;
     }
 }

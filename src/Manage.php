@@ -6,18 +6,14 @@ namespace Dotclear\Plugin\dcLog;
 
 use Dotclear\App;
 use Dotclear\Helper\Process\TraitProcess;
-use Dotclear\Core\Backend\{
-    Notices,
-    Page
-};
-use Dotclear\Helper\Html\Form\{
-    Div,
-    Form,
-    Hidden,
-    Para,
-    Submit,
-    Text
-};
+use Dotclear\Core\Backend\Notices;
+use Dotclear\Core\Backend\Page;
+use Dotclear\Helper\Html\Form\Div;
+use Dotclear\Helper\Html\Form\Form;
+use Dotclear\Helper\Html\Form\Hidden;
+use Dotclear\Helper\Html\Form\Para;
+use Dotclear\Helper\Html\Form\Submit;
+use Dotclear\Helper\Html\Form\Text;
 use Exception;
 
 /**
