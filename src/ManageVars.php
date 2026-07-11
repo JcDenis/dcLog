@@ -88,7 +88,7 @@ class ManageVars
 
         try {
             $this->logs = App::log()->getLogs($params);
-            $count      = App::log()->getLogs($params, true)->f(0);
+            $count      = App::log()->getLogs($params, true)->cardinal();
             $count      = is_numeric($count) ? (int) $count : 0;
             $this->list = new BackendList($this->logs, $count);
         } catch (Exception $e) {

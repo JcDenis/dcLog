@@ -65,7 +65,7 @@ class BackendList extends Listing
 
         $lines = [];
         while ($this->rs->fetch()) {
-            $lines[] = $this->line(isset($_POST['entries']) && in_array($this->rs->f('log_id'), $_POST['entries']));
+            $lines[] = $this->line(isset($_POST['entries']) && in_array($this->rs->strField('log_id'), $_POST['entries']));
         }
 
         echo
@@ -106,25 +106,25 @@ class BackendList extends Listing
                 ->class('nowrap minimal')
                 ->items([
                     (new Checkbox(['entries[]'], $checked))
-                        ->value($this->rs->f('log_id')),
+                        ->value($this->rs->intField('log_id')),
                 ]),
-            'date' => (new Text('td', Html::escapeHTML(Date::dt2str(__('%Y-%m-%d %H:%M'), $this->rs->f('log_dt')))))
+            'date' => (new Text('td', Html::escapeHTML(Date::dt2str(__('%Y-%m-%d %H:%M'), $this->rs->strField('log_dt')))))
                 ->class('nowrap minimal'),
-            'msg' => (new Text('td', nl2br(Html::escapeHTML($this->rs->f('log_msg')))))
+            'msg' => (new Text('td', nl2br(Html::escapeHTML($this->rs->strField('log_msg')))))
                 ->class('maximal'),
-            'blog' => (new Text('td', Html::escapeHTML($this->rs->f('blog_id'))))
+            'blog' => (new Text('td', Html::escapeHTML($this->rs->strField('blog_id'))))
                 ->class('nowrap minimal'),
-            'table' => (new Text('td', Html::escapeHTML($this->rs->f('log_table'))))
+            'table' => (new Text('td', Html::escapeHTML($this->rs->strField('log_table'))))
                 ->class('nowrap minimal'),
             'user' => (new Text('td', Html::escapeHTML($this->rs->getUserCN())))
                 ->class('nowrap minimal'),
-            'ip' => (new Text('td', Html::escapeHTML($this->rs->f('log_ip'))))
+            'ip' => (new Text('td', Html::escapeHTML($this->rs->strField('log_ip'))))
                 ->class('nowrap minimal'),
         ]);
         $this->userColumns(My::BACKEND_LIST_ID, $cols);
 
         return
-        (new Para('p' . $this->rs->f('log_id'), 'tr'))
+        (new Para('p' . $this->rs->intField('log_id'), 'tr'))
             ->class('line')
             ->items(iterator_to_array($cols));
     }
