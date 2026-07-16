@@ -125,7 +125,7 @@ class Manage
                                                 ->class('delete')
                                                 ->value(__('Delete all logs')),
                                         ]),
-                                    ... My::hiddenFields($current->filter->values()),
+                                    ... My::hiddenFields(array_filter($current->filter->values(), is_string(...))),
                                 ]),
                         ])->render(),
                     $current->filter->show()

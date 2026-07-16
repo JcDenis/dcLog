@@ -74,7 +74,7 @@ class ManageVars
      */
     protected function __construct()
     {
-        $this->entries       = !empty($_POST['entries']) && is_array($_POST['entries']) ? $_POST['entries'] : [];
+        $this->entries       = array_values(array_filter(!empty($_POST['entries']) && is_array($_POST['entries']) ? $_POST['entries'] : [], is_string(...)));
         $this->all_logs      = isset($_POST['all_logs']);
         $this->selected_logs = isset($_POST['selected_logs']);
 
@@ -88,10 +88,14 @@ class ManageVars
 
         try {
             $this->logs = App::log()->getLogs($params);
-            $count      = App::log()->getLogs($params, true)->cardinal();
-            $count      = is_numeric($count) ? (int) $count : 0;
-            $this->list = new BackendList($this->logs, $count);
         } catch (Exception $e) {
+            $this->logs = null;
+            App::error()->add($e->getMessage());
+        }
+        try {
+            $this->list = $this->logs === null ? null : new BackendList($this->logs, App::log()->getLogs($params, true)->cardinal());
+        } catch (Exception $e) {
+            $this->list = null;
             App::error()->add($e->getMessage());
         }
     }

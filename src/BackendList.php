@@ -46,6 +46,9 @@ class BackendList extends Listing
 
         $pager = new Pager($page, (int) $this->rs_count, $nb_per_page, 10);
 
+        /**
+         * @var ArrayObject<string, Component>
+         */
         $cols = new ArrayObject([
             'date' => (new Text('th', __('Date')))
                 ->class('first')
@@ -63,9 +66,10 @@ class BackendList extends Listing
         ]);
         $this->userColumns(My::BACKEND_LIST_ID, $cols);
 
+        $entries = isset($_POST['entries']) && is_array($_POST['entries']) ? $_POST['entries'] : [];
         $lines = [];
         while ($this->rs->fetch()) {
-            $lines[] = $this->line(isset($_POST['entries']) && in_array($this->rs->strField('log_id'), $_POST['entries']));
+            $lines[] = $this->line(in_array($this->rs->strField('log_id'), $entries));
         }
 
         echo
@@ -101,6 +105,9 @@ class BackendList extends Listing
      */
     private function line(bool $checked): Component
     {
+        /**
+         * @var ArrayObject<string, Component>
+         */
         $cols = new ArrayObject([
             'check' => (new Para(null, 'td'))
                 ->class('nowrap minimal')
