@@ -22,7 +22,7 @@ $this->registerModule(
     "Dotclear's logs",
     'Displays Dotclear logs',
     'Tomtom and Contributors',
-    '1.8.1',
+    '1.9',
     [
         'requires'    => [['core', '2.39']],
         'permissions' => null,
