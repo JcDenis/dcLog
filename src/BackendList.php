@@ -69,7 +69,7 @@ class BackendList extends Listing
         $entries = isset($_POST['entries']) && is_array($_POST['entries']) ? $_POST['entries'] : [];
         $lines = [];
         while ($this->rs->fetch()) {
-            $lines[] = $this->line(in_array($this->rs->strField('log_id'), $entries));
+            $lines[] = $this->line(in_array((string) $this->rs->intField('log_id'), $entries));
         }
 
         echo
