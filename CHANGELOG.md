@@ -1,3 +1,8 @@
+dcLog 1.11 - 2026.11.09
+===========================================================
+* Add Claude to contributors
+* Fix compatibility with Dotclear 2.40
+
 dcLog 1.10 - 2026.11.05
 ===========================================================
 * Fix selected logs on SQLite
