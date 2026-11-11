@@ -5,7 +5,7 @@ Object.assign(dotclear.msg, dotclear.getData('dcLog_msg'));
 
 $(function(){
 	$('.checkboxes-helpers').each(function(){
-		dotclear.checkboxesHelpers(this)
+		dotclear.checkboxesHelpers(this, undefined, '#dcLog_form td input[type=checkbox]', '#dcLog_form #selected_logs')
 	});
 	$('input[name="selected_logs"]').click(function(){
 		return window.confirm(dotclear.msg.confirm_delete_selected_log)
@@ -13,5 +13,5 @@ $(function(){
 	$('input[name="all_logs"]').click(function(){
 		return window.confirm(dotclear.msg.confirm_delete_all_log)
 	})
-  	dotclear.condSubmit('#dcLog_form  td input[type=checkbox]', '#dcLog_form #selected_logs');
+  	dotclear.condSubmit('#dcLog_form td input[type=checkbox]', '#dcLog_form #selected_logs');
 })
