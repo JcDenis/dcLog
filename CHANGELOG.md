@@ -1,3 +1,7 @@
+dcLog 1.12 - 2026.11.11
+===========================================================
+* Fix #2: delete button not enabled by checkboxes helpers (select all)
+
 dcLog 1.11 - 2026.11.09
 ===========================================================
 * Add Claude to contributors
