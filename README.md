@@ -12,6 +12,8 @@ _dcLog_ is a plugin for the open-source web publishing software called [Dotclear
 
 > Display dotclear's logs.
 
+A user guide with screenshots is available in French: [guide d'utilisation](https://github.com/JcDenis/dcLog/blob/master/docs/fr/utilisation.md).
+
 ## REQUIREMENTS
 
 * PHP 8.1+
@@ -29,6 +31,7 @@ Once it's done you can manage your logs from menu
 ## LINKS
 
 * [License](https://github.com/JcDenis/dcLog/blob/master/LICENSE)
+* [User guide (in French)](https://github.com/JcDenis/dcLog/blob/master/docs/fr/utilisation.md)
 * [Packages & details](https://github.com/JcDenis/dcLog/releases) (or on [Repository](https://dotclear.org/plugin/detail/dcLog))
 * [Sources & contributions](https://github.com/JcDenis/dcLog)
 * [Issues & security](https://github.com/JcDenis/dcLog/issues)
