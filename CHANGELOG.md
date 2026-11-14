@@ -1,3 +1,9 @@
+dcLog 1.13 - 2026.11.14
+===========================================================
+* Fix texts and translations
+* Add a user guide in French, with screenshots
+* Add admin help in English and French
+
 dcLog 1.12 - 2026.11.11
 ===========================================================
 * Fix #2: delete button not enabled by checkboxes helpers (select all)
