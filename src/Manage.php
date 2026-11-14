@@ -133,6 +133,7 @@ class Manage
             }
         }
 
+        Page::helpBlock(My::id() . '-logs');
         Page::closeModule();
     }
 }
