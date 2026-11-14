@@ -84,7 +84,7 @@ class BackendList extends Listing
                             (new Text(
                                 'caption',
                                 $filter ?
-                                sprintf(__('List of %s logs matching the filter.'), $this->rs_count) :
+                                sprintf(__('List of %s log matching the filter.', 'List of %s logs matching the filter.', $this->rs_count), $this->rs_count) :
                                 sprintf(__('List of logs. (%s)'), $this->rs_count)
                             )),
                             (new Para(null, 'tr'))

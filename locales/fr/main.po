@@ -44,28 +44,30 @@ msgid "No log"
 msgstr "Aucun log"
 
 #: src/BackendList.php:87
-msgid "List of %s logs matching the filter."
-msgstr "Liste des %s logs correspondants au filtre."
+msgid "List of %s log matching the filter."
+msgid_plural "List of %s logs matching the filter."
+msgstr[0] "Liste du log correspondant au filtre."
+msgstr[1] "Liste des %s logs correspondant au filtre."
 
 #: src/BackendList.php:88
 msgid "List of logs. (%s)"
-msgstr "Liste des logs. (%s)"
+msgstr "Liste des logs (%s)"
 
 #: src/Manage.php:56
 msgid "All logs have been successfully deleted"
-msgstr "Tous les logs ont été supprimé avec succès"
+msgstr "Tous les logs ont été supprimés avec succès"
 
 #: src/Manage.php:57
 msgid "Selected logs have been successfully deleted"
-msgstr "Les logs sélectionnés ont été supprimé avec succès"
+msgstr "Les logs sélectionnés ont été supprimés avec succès"
 
 #: src/Manage.php:79
 msgid "Are you sure you want to delete selected logs?"
-msgstr "Êtes vous sur de vouloir supprimer les logs sélectionnés?"
+msgstr "Êtes-vous sûr de vouloir supprimer les logs sélectionnés ?"
 
 #: src/Manage.php:80
 msgid "Are you sure you want to delete all logs?"
-msgstr "Êtes vous sur de vouloir supprimer tous les logs"
+msgstr "Êtes-vous sûr de vouloir supprimer tous les logs ?"
 
 #: src/Manage.php:98
 msgid "There are no logs"
