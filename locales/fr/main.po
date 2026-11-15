@@ -29,7 +29,7 @@ msgstr "Composant"
 #: src/Backend.php:45
 #: src/BackendList.php:63
 msgid "User"
-msgstr "Utilisateur"
+msgstr "Utilisateur·ice"
 
 #: src/Backend.php:64
 msgid "Logs per page"
@@ -79,7 +79,7 @@ msgstr "Supprimer les logs sélectionnés"
 
 #: src/Manage.php:128
 msgid "Delete all logs"
-msgstr "Supprimer tous les logs"
+msgstr "Supprimer tous les journaux (logs)"
 
 #: src/ManageVars.php:86
 msgid "User:"
