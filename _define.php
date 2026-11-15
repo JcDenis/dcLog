@@ -24,7 +24,7 @@ $this->registerModule(
     'Tomtom and Contributors',
     '1.13',
     [
-        'requires'    => [['core', '2.39']],
+        'requires'    => [['core', '2.40']],
         'permissions' => null,
         'type'        => 'plugin',
         'support'     => 'https://github.com/JcDenis/' . $this->id . '/issues',

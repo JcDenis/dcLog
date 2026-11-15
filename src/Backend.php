@@ -8,6 +8,7 @@ use ArrayObject;
 use Dotclear\App;
 use Dotclear\Core\Backend\Favorites;
 use Dotclear\Core\Backend\Menus;
+use Dotclear\Core\Backend\UserPrefFilter;
 use Dotclear\Helper\Process\TraitProcess;
 
 /**
@@ -51,8 +52,9 @@ class Backend
                 ];
             },
             // backend filter for logs list sort
-            'adminFiltersListsV2' => function (ArrayObject $sorts): void {
-                $sorts[My::BACKEND_LIST_ID] = [
+            'adminFiltersListsV3' => function (ArrayObject $filters): void {
+                $filters->append(new UserPrefFilter(
+                    My::BACKEND_LIST_ID,
                     My::name(),
                     [
                         __('Date')      => 'log_dt',
@@ -64,8 +66,9 @@ class Backend
                     ],
                     'log_dt',
                     'desc',
-                    [__('Logs per page'), 30],
-                ];
+                    __('Logs per page'),
+                    30
+                ));
             },
             // backend user preference for dashboard icon
             'adminDashboardFavoritesV2' => function (Favorites $favs): void {
