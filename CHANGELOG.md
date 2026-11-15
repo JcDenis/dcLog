@@ -1,3 +1,8 @@
+dcLog 1.14 - 2026.11.15
+===========================================================
+* [compat] Use adminFiltersListsV3 behavior, require Dotclear 2.40
+* [lang] Do not override core translations
+
 dcLog 1.13 - 2026.11.14
 ===========================================================
 * Fix texts and translations
